@@ -48,40 +48,8 @@
  <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-      navigator.serviceWorker.register('/sw.js').then(function(registration) {
-        // Registration was successful
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        
-      if (!navigator.serviceWorker.controller) {
-        return;
-      }
-
-      if (registration.waiting) {
-        navigator.serviceWorker.controller.postMessage({action: 'skipWaiting'});
-      }
-
-      if (registration.installing) {
-        navigator.serviceWorker.addEventListener('statechange', function() {
-        if (navigator.serviceWorker.controller.state == 'installed') {
-          navigator.serviceWorker.controller.postMessage({action: 'skipWaiting'});
-        }
-        });
-      }
-
-      registration.addEventListener('updatefound', function() {
-        navigator.serviceWorker.addEventListener('statechange', function() {
-          if (navigator.serviceWorker.controller.state == 'installed') {
-            navigator.serviceWorker.controller.postMessage({action: 'skipWaiting'});
-          }
-        });
-      });
-     
-      }, function(err) {
-        // registration failed :(
-        console.log('ServiceWorker registration failed: ', err);
-        });
-      });
-    }
+      navigator.serviceWorker.register('/sw.js')
+    })}
   </script>
 </body>
 
