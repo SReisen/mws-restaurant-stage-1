@@ -25,7 +25,6 @@ self.addEventListener('fetch', function(e) {
         // caches images without size information 
         if (reqUrl.pathname.startsWith('/images/')){
            let imageUrl = reqUrl.toString().substr(0, reqUrl.toString().length-10).concat(".jpg");
-           console.log(imageUrl);
             e.respondWith(
 
             caches.open(siteCache).then(function(cache) {   
