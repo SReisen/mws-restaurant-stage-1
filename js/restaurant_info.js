@@ -60,7 +60,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById('restaurant-img');
 
   image.className = 'restaurant-img';
-  image.alt = '';
+  image.alt = 'restaurant ' + restaurant.name;
   // choose image resolution depending on window with
   const winWith = window.innerWidth;
   if (winWith > 800) { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-800px.jpg'); }
