@@ -22,7 +22,7 @@ self.addEventListener('install', function(e) {
 self.addEventListener('fetch', function(e) {
     let reqUrl = new URL(e.request.url);
     if (reqUrl.origin === location.origin) {  
-        // caches images without size information 
+        // caches images without size informations
         if (reqUrl.pathname.startsWith('/images/')){
            let imageUrl = reqUrl.toString().substr(0, reqUrl.toString().length-10).concat(".jpg");
             e.respondWith(
