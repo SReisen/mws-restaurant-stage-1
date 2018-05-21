@@ -8,6 +8,6 @@
             ".vscode/**",
             "**/*.scss",
             "**/*.sass"
-    ]
-
+    ],
+    "git.ignoreLimitWarning": true
 }
