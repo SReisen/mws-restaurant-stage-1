@@ -4,6 +4,13 @@ let restaurants,
 var map
 var markers = []
 
+/* Database creation based on promises 
+if (!('indexedDB' in window)) {
+  console.log('IndexedDB not supported');
+  return;
+}
+*/
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */

@@ -4,7 +4,7 @@ let siteCacheUrls = [
     'index.html',
     'sw.js',
     'restaurant.html',
-    'css/styles.css',
+    'dist/css/styles.css',
     'js/dbhelper.js',
     'js/main.js',
     'js/restaurant_info.js',
