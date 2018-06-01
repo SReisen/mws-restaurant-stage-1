@@ -8,27 +8,90 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337; // Change this to your server port
+    return `http://localhost:${port}/restaurants `;
+  }
+
+  /**
+   
+
+   */
+  static initRestaurantDB(restaurants){
+    
+    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+
+    
+    if (!window.indexedDB) {
+      window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
+    }
+
+    // open Database
+    var request = indexedDB.open('RestaurantDB', 1);
+
+    // if database version has changed upgrade DB
+    request.onupgradeneeded = function(event) {
+      var db = event.target.result;
+
+      var createRestaurantStore = db.createObjectStore("restaurantStore", { keyPath: "id" });
+
+      createRestaurantStore.transaction.oncomplete = function(event) {
+        // Store values in the newly created objectStore.
+        var restaurantObjectStore = db.transaction("restaurantStore", "readwrite").objectStore("restaurantStore");
+        restaurants.forEach(function(restaurant) { //restaurants kommt vom server
+          console.log('foreach');
+          restaurantObjectStore.add(restaurant);
+        });
+    }}
+
+    request.onsuccess = function(event){
+      console.log("success!");
+      var db = request.result;
+       var restaurantObjectStore = db.transaction("restaurantStore", "readwrite").objectStore("restaurantStore");
+        restaurants.forEach(function(restaurant) { //restaurants kommt vom server
+          console.log('foreach');
+          restaurantObjectStore.add(restaurant);
+        });
+      
+    }
+    // Show error message if nesessary
+    request.onerror = function(event) {
+      alert("Database error: " + event.target.errorCode);
+    };
+
+
+
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+    fetch(DBHelper.DATABASE_URL)
+      .then(response => response.json())
+      .then (restaurantJSON =>{
+        let restaurants = restaurantJSON;
+        DBHelper.initRestaurantDB(restaurants);  
+        callback(null,restaurants);
+      })
+    //let xhr = new XMLHttpRequest();
+    //test
+    //xhr.open('GET', DBHelper.DATABASE_URL);
+    //xhr.onload = () => {
+    //  if (xhr.status === 200) { // Got a success response from server!
+    //    const json = JSON.parse(xhr.responseText);
+    //    const restaurants = json.restaurants;
+     //   callback(null, restaurants);
+    //  } else { // Oops!. Got an error from server.
+     //   const error = (`Request failed. Returned status of ${xhr.status}`);
+     //   callback(error, null);
+     // }
+    //};
+    //xhr.send();
+    .catch(e => requestError(e));
+        
+    function requestError(e) {
+        callback(e, null);
+    }
   }
 
   /**
