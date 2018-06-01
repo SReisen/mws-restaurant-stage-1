@@ -23,7 +23,8 @@ self.addEventListener('fetch', function(e) {
     if (reqUrl.origin === location.origin) {  
         // caches images without size informations
         if (reqUrl.pathname.startsWith('/images/')){
-           let imageUrl = reqUrl.toString().substr(0, reqUrl.toString().length-10).concat(".jpg");
+            // changed to length - 6 => .jpg is missing
+           let imageUrl = reqUrl.toString().substr(0, reqUrl.toString().length-6).concat(".jpg");
             e.respondWith(
 
             caches.open(siteCache).then(function(cache) {   
