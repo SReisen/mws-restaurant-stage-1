@@ -144,13 +144,21 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  let imgUrl;
 
   li.tabIndex = 0;
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.alt = "restaurant " + restaurant.name;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg', '-300px.jpg');
+  imgUrl = DBHelper.imageUrlForRestaurant(restaurant);
+  // if image not found use no-pic.svg
+  if (imgUrl == '/images/undefined.jpg'){
+    image.src = '/no-pic.svg';
+    image.alt = "Sorry, there is no image for " + restaurant.name;
+    }
+  else image.src = imgUrl.replace('.jpg', '-300px.jpg');
+
   li.append(image); 
 
   const name = document.createElement('h3');
