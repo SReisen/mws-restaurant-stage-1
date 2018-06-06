@@ -5,7 +5,6 @@
   <meta name="theme-color" content="#252831"/>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta charset="utf-8">
-  <link href="https://fonts.googleapis.com/css?family=Athiti" rel="stylesheet">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="dist/css/styles.css">
   <link rel="manifest" href="/manifest.json">
@@ -20,6 +19,7 @@
     <nav>
       <h1>Restaurant Reviews</h1>
     </nav>
+    <input id="map-image" type="image" alt="Show map" onclick="toggle_map()" aria-label="Show map" aria-pressed="false" type="button" src="/images/map-show.svg">
   </header>
 
   <main id="maincontent">
@@ -40,14 +40,15 @@
     </section>
   </main>
 
-  <!-- <script type="application/javascript" charset="utf-8" src="dist/js/all.js"></script> -->
-  <script type="application/javascript" charset="utf-8" src="/js/main.js"></script>
-  <script type="application/javascript" charset="utf-8" src="/js/dbhelper.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9YztfBeOOlt11Zbubd7Slpq0IUVjwYS8&libraries=places&callback=initMap"></script>
  
   <footer id="footer">
     Copyright (c) 2017 <a href="/" title="back to homepage"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
+
+  <!-- <script type="application/javascript" charset="utf-8" src="dist/js/all.js"></script> -->
+  <script type="application/javascript" charset="utf-8" src="/js/main.js"></script>
+  <script type="application/javascript" charset="utf-8" src="/js/dbhelper.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9YztfBeOOlt11Zbubd7Slpq0IUVjwYS8&libraries=places&callback=initMap"></script>
  <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {

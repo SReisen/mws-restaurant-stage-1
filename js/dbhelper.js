@@ -44,11 +44,11 @@ class DBHelper {
     }}
 
     request.onsuccess = function(event){
-      console.log("success!");
+      // console.log("success!");
       var db = request.result;
        var restaurantObjectStore = db.transaction("restaurantStore", "readwrite").objectStore("restaurantStore");
         restaurants.forEach(function(restaurant) { //restaurants kommt vom server
-          console.log('foreach');
+          //console.log('foreach');
           restaurantObjectStore.add(restaurant);
         });
       

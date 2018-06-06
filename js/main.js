@@ -4,13 +4,34 @@ let restaurants,
 var map
 var markers = []
 
-/* Database creation based on promises 
-if (!('indexedDB' in window)) {
-  console.log('IndexedDB not supported');
-  return;
-}
-*/
 
+/** 
+ * The following function was written by david walsh and found on https://davidwalsh.name/lazyload-image-fade
+ * */
+window.addEventListener('load', function() {
+[].forEach.call(document.querySelectorAll('img[data-src]'), function(img) {
+	img.setAttribute('src', img.getAttribute('data-src'));
+	img.onload = function() {
+		img.removeAttribute('data-src');
+	};
+})
+});
+
+/**
+ * Turn Googlemaps on / off on mobile view, This is nessessary to reach performance goals.
+ */
+const toggle_map = () => {    
+    if (document.getElementById('map').style.display === 'none') {
+      document.getElementById('map-image').src = '/images/map-hide.svg';
+      document.getElementById('map-image').setAttribute('aria-pressed','true');     
+      document.getElementById('map').style.display = 'block'
+    }
+    else{   
+      document.getElementById('map-image').src = '/images/map-show.svg';
+      document.getElementById('map-image').setAttribute('aria-pressed','false');   
+      document.getElementById('map').style.display = 'none'   
+    }
+  }
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -154,10 +175,11 @@ createRestaurantHTML = (restaurant) => {
   imgUrl = DBHelper.imageUrlForRestaurant(restaurant);
   // if image not found use no-pic.svg
   if (imgUrl == '/images/undefined.jpg'){
-    image.src = '/no-pic.svg';
+    //image.src = '/images/no-pic.svg';
+    image.dataset.src = '/images/no-pic.svg';
     image.alt = "Sorry, there is no image for " + restaurant.name;
     }
-  else image.src = imgUrl.replace('.jpg', '-300px.jpg');
+  else image.dataset.src = imgUrl.replace('.jpg', '-300px.jpg');
 
   li.append(image); 
 
