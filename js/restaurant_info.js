@@ -1,6 +1,34 @@
 let restaurant;
 var map;
 
+
+/** 
+ * The following function was written by david walsh and found on https://davidwalsh.name/lazyload-image-fade
+ * */
+window.addEventListener('load', function() {
+  [].forEach.call(document.querySelectorAll('img[data-src]'), function(img) {
+    img.setAttribute('src', img.getAttribute('data-src'));
+    img.onload = function() {
+      img.removeAttribute('data-src');
+    };
+  })
+  });
+  
+  /**
+   * Turn Googlemaps on / off on mobile view, This is nessessary to reach performance goals.
+   */
+  const toggle_map = () => {    
+      if (document.getElementById('map').style.display === 'none') {
+        document.getElementById('map-image').src = '/images/map-hide.svg';
+        document.getElementById('map-image').setAttribute('aria-pressed','true');     
+        document.getElementById('map').style.display = 'block'
+      }
+      else{   
+        document.getElementById('map-image').src = '/images/map-show.svg';
+        document.getElementById('map-image').setAttribute('aria-pressed','false');   
+        document.getElementById('map').style.display = 'none'   
+      }
+    }
 /**
  * Initialize Google map, called from HTML.
  */
