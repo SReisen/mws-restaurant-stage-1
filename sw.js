@@ -7,6 +7,9 @@ let siteCacheUrls = [
     'dist/css/styles.css',
     'js/dbhelper.js',
     'js/main.js',
+    'images/map-show.svg',
+    'images/map-hide.svg',
+    'images/no-pic.svg',
     'js/restaurant_info.js'
     ];
 
