@@ -111,7 +111,7 @@ static readDB(){
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    console.log('start');
+    //console.log('start');
     fetch(DBHelper.DATABASE_URL)
       .then(response => response.json())
       .then (restaurantJSON =>{

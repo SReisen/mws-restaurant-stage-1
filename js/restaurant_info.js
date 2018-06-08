@@ -17,7 +17,7 @@ window.addEventListener('load', function() {
   /**
    * Turn Googlemaps on / off on mobile view, This is nessessary to reach performance goals.
    */
-  const toggle_map = () => {    
+  const switch_map = () => {    
       if (document.getElementById('map').style.display === 'none') {
         document.getElementById('map-image').src = '/images/map-hide.svg';
         document.getElementById('map-image').setAttribute('aria-pressed','true');     

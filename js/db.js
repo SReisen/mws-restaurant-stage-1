@@ -1,4 +1,6 @@
-//import idb from 'idb';
+/**
+ * The code in this file based on Jake Archibalds work. Especially on the idb library and wittr project
+ */
 
 // check for IndexedDB support
 if (!window.indexedDB) {

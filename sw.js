@@ -7,6 +7,8 @@ let siteCacheUrls = [
     'dist/css/styles.css',
     'js/dbhelper.js',
     'js/main.js',
+    'js/idb.js',
+    'js/db.js',
     'images/map-show.svg',
     'images/map-hide.svg',
     'images/no-pic.svg',
@@ -27,7 +29,7 @@ self.addEventListener('fetch', function(e) {
         // caches images without size informations
         if (reqUrl.pathname.startsWith('/images/')){
             // changed to length - 6 => .jpg is missing
-           let imageUrl = reqUrl.toString().substr(0, reqUrl.toString().length-6).concat(".jpg");
+           let imageUrl = reqUrl.toString().substr(0, reqUrl.toString().length-10).concat(".jpg");
             e.respondWith(
 
             caches.open(siteCache).then(function(cache) {   
