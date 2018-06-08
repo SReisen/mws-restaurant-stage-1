@@ -17,7 +17,7 @@ class DBHelper {
   /**
    
 
-   */
+   
   static initDB(restaurants){
     var dbPromise = idb.open('RestaurantDB', 1, function(upgradeDB){
         var store = upgradeDb.createObjectStore('restaurantStore');
@@ -83,8 +83,8 @@ class DBHelper {
 
 
 
-  }
-/* test readdb*/
+  } */
+/* test readdb
 static readDB(){ 
   dbPromise.then(function(db){
     var tx = db.transaction('restaurantStore');
@@ -103,10 +103,10 @@ static readDB(){
       var restReturn = restaurantObjectStore.getAll(); 
         console.log('restreturn-json: ', JSON.stringify(messages));
       return restReturn.result;})
-    }) ;  */
+    }) ;  
 
 
-  }
+}*/
   /**
    * Fetch all restaurants.
    */
@@ -117,7 +117,7 @@ static readDB(){
       .then (restaurantJSON =>{
         let restaurants = restaurantJSON;
         //DBHelper.initRestaurantDB(restaurants);  
-        DBHelper.initDB(restaurants);
+        fillDB(restaurants);
         callback(null,restaurants);
       })
     //let xhr = new XMLHttpRequest();
@@ -140,7 +140,7 @@ static readDB(){
       console.log('damit!');
       //return DBHelper.initDB();
       //var restaurantList = DBHelper.initDB();
-        DBHelper.initDB().then(function(rdata){
+        readDB().then(function(rdata){
         console.log(rdata);
         callback(null, rdata);
         })
