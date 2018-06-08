@@ -6,7 +6,7 @@ var markers = []
 
 
 /** 
- * The following function was written by david walsh and found on https://davidwalsh.name/lazyload-image-fade
+ * The following function was written by David Walsh and found on https://davidwalsh.name/lazyload-image-fade
  * */
 window.addEventListener('load', function() {
 [].forEach.call(document.querySelectorAll('img[data-src]'), function(img) {
