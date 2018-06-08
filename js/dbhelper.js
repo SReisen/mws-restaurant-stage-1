@@ -1,6 +1,8 @@
 /**
  * Common database helper functions.
  */
+//import idb from 'idb';
+
 class DBHelper {
 
   /**
@@ -16,6 +18,27 @@ class DBHelper {
    
 
    */
+  static initDB(restaurants){
+    var dbPromise = idb.open('RestaurantDB', 1, function(upgradeDB){
+        var store = upgradeDb.createObjectStore('restaurantStore');
+
+
+    })
+
+    return dbPromise.then(function(db){
+      var tx = db.transaction('restaurantStore');
+      var store = tx.objectStore('restaurantStore');
+      return store.getAll();
+ 
+   }).then(function(retData){
+     console.log(retData);
+     return retData;
+   })
+
+  }
+
+
+
   static initRestaurantDB(restaurants){
     
     var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
@@ -61,16 +84,40 @@ class DBHelper {
 
 
   }
+/* test readdb*/
+static readDB(){ 
+  dbPromise.then(function(db){
+    var tx = db.transaction('restaurantStore');
+    var store = tx.objectStore('restaurantStore');
+    return store.getAll();
+ }).then(function(data){
+   console.log(data);
+ })
 
+    /*var request = indexedDB.open('RestaurantDB', 1);
+   
+    request.onsuccess = (function(event) {
+      var db = event.target.result;
+      console.log('readDb database open!');
+      var restaurantObjectStore = db.transaction("restaurantStore", "readonly").objectStore("restaurantStore").oncomplete(function(messages){
+      var restReturn = restaurantObjectStore.getAll(); 
+        console.log('restreturn-json: ', JSON.stringify(messages));
+      return restReturn.result;})
+    }) ;  */
+
+
+  }
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
+    console.log('start');
     fetch(DBHelper.DATABASE_URL)
       .then(response => response.json())
       .then (restaurantJSON =>{
         let restaurants = restaurantJSON;
-        DBHelper.initRestaurantDB(restaurants);  
+        //DBHelper.initRestaurantDB(restaurants);  
+        DBHelper.initDB(restaurants);
         callback(null,restaurants);
       })
     //let xhr = new XMLHttpRequest();
@@ -90,7 +137,13 @@ class DBHelper {
     .catch(e => requestError(e));
         
     function requestError(e) {
-        callback(e, null);
+      console.log('damit!');
+      //return DBHelper.initDB();
+      //var restaurantList = DBHelper.initDB();
+        DBHelper.initDB().then(function(rdata){
+        console.log(rdata);
+        callback(null, rdata);
+        })
     }
   }
 
