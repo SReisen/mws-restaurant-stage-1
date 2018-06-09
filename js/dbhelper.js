@@ -24,13 +24,11 @@ class DBHelper {
         fillDB(restaurants);
         callback(null,restaurants);
       })
-    .catch(e => requestError(e));
-        
-    function requestError(e) {
+    .catch(function() {   
         readDB().then(function(rdata){
         callback(null, rdata);
         })
-    }
+    })
   }
 
   /**

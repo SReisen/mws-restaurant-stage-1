@@ -4,19 +4,6 @@ let restaurants,
 var map
 var markers = []
 
-
-/** 
- * The following function was written by David Walsh and found on https://davidwalsh.name/lazyload-image-fade
- * */
-window.addEventListener('load', function() {
-[].forEach.call(document.querySelectorAll('img[data-src]'), function(img) {
-	img.setAttribute('src', img.getAttribute('data-src'));
-	img.onload = function() {
-		img.removeAttribute('data-src');
-	};
-})
-});
-
 /**
  * Turn Googlemaps on / off on mobile view, This is nessessary to reach performance goals.
  */
@@ -176,11 +163,12 @@ createRestaurantHTML = (restaurant) => {
   imgUrl = DBHelper.imageUrlForRestaurant(restaurant);
   // if image not found use no-pic.svg
   if (imgUrl == '/images/undefined.jpg'){
-    //image.src = '/images/no-pic.svg';
-    image.dataset.src = '/images/no-pic.svg';
+    image.src = '/images/no-pic.svg';  
     image.alt = "Sorry, there is no image for " + restaurant.name;
-    }
-  else image.dataset.src = imgUrl.replace('.jpg', '-300px.jpg');
+  }
+ 
+  else image.src = imgUrl.replace('.jpg', '-300px.jpg');
+
 
   li.append(image); 
 
