@@ -91,7 +91,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.alt = 'restaurant ' + restaurant.name;
   // choose image resolution depending on window with
   const winWith = window.innerWidth;
-  if (winWith > 800) { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-800px.jpg'); }
+  if (DBHelper.imageUrlForRestaurant(restaurant) == '/images/undefined.jpg'){
+    image.src = '/images/no-pic.svg';
+    image.alt = "Sorry, there is no image for " + restaurant.name;
+  }
+  else if (winWith > 800) { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-800px.jpg'); }
   else if (winWith > 600) { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-600px.jpg'); }
   else { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-300px.jpg'); }
   
