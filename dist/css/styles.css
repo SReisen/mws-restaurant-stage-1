@@ -71,6 +71,11 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #map{
   display: none;
 }
+#review{
+  border: solid 1px #252831;
+  margin-bottom: 50px;
+  
+}
 #footer {
   background-color: #252831;
   color: #aaa;
@@ -346,6 +351,13 @@ nav h1 a {
   letter-spacing: -1px;
   padding-bottom: 1pt;
   margin: 0; }
+
+#reviews-container h3{
+  display: inline;}
+
+#reviews-container button{
+  margin-left: 20px;
+  margin-bottom: 20px;}
 
 #reviews-list {
   display: grid;

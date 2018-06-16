@@ -82,9 +82,25 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
+// Show red hart if favorite. 
+// Todo: creat as button, contact server.
+const favImg = document.createElement('img');
+favImg.className = 'fav-img';
+  if (restaurant.is_favorite == true){
+    favImg.alt = restaurant.name + " is a favorite";
+    favImg.src = '/images/heart.svg';  
+    } 
+  else{
+    favImg.alt = restaurant.name + " is not marked as a favorite";
+    favImg.src = '/images/heart-grey.svg';  
+  } 
+  document.getElementById('restaurant-address').append(favImg);
+
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
+
+    
   const image = document.getElementById('restaurant-img');
 
   image.className = 'restaurant-img';
@@ -140,6 +156,9 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
+  const writeRev = document.createElement('BUTTON');
+  writeRev.innerHTML = '+ Write your own review';
+  container.appendChild(writeRev);
 
   if (!reviews) {
     const noReviews = document.createElement('p');

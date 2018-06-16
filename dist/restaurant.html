@@ -18,8 +18,9 @@
 
 <body class="inside">
   <!-- Beginning header -->
-  <header>   
+  <header id="header">   
       <h1>Restaurant Reviews</h1>
+      <input id="map-image" type="image" alt="Show map" onclick="switch_map()" aria-label="Show map" aria-pressed="false" type="button" src="/images/map-show.svg">
     <!-- Beginning nav / breadcrumb -->
     <nav aria-label="Breadcrumb">
       <ol id="breadcrumb" >
@@ -41,6 +42,9 @@
       <table id="restaurant-hours" aria-label="opening hours"></table>
     </section>
     <!-- end restaurant -->
+    <!-- Beginning Form-->
+    
+    <!-- End Form-->
     <!-- Beginning reviews -->
     <section id="reviews-container" aria-label="Customer reviews">
       <ul id="reviews-list"></ul>
@@ -53,7 +57,21 @@
     <!-- End map -->
   </main>
   <!-- End main -->
-
+<form id="rating" >
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" value="name" id="name" aria-required="true"/>
+      </div>
+      <div>
+        <label for="rating">Rating:</label>
+        <input type="text" value="rating" id="rating" aria-required="true"/>
+      </div>
+      <div>  
+        <label for="text">Review</label>
+           <textarea id="text" name="text" cols="35" rows="4"></textarea> 	
+      </div>     
+      <input type="submit" value="Send" />
+    </form>
   <!-- Beginning footer -->
   <footer id="footer">
     Copyright (c) 2017 <a href="/" title="back to homepage"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
@@ -62,6 +80,8 @@
  
   
   <!-- Beginning scripts -->
+  <script type="application/javascript" charset="utf-8" src="/js/idb.js"></script> 
+  <script type="application/javascript" charset="utf-8" src="/js/db.js"></script> 
   <!-- Database helpers -->
    <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
