@@ -172,19 +172,22 @@ createRestaurantHTML = (restaurant) => {
 
   li.append(image); 
   
-  // Add heart image if favorite
-  if (restaurant.is_favorite == true){
-  const favImg = document.createElement('img');
-  favImg.className = 'fav-img';
-  favImg.alt = restaurant.name + " is a favorite";
-  image.src = '/images/heart.svg';  
-  li.append(favImg);
-  }  
-  
-
   const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   li.append(name);
+
+  // Add heart image if favorite
+  const favImg = document.createElement('img'); 
+  favImg.className = 'fav-img'; 
+  if (restaurant.is_favorite == true){
+    favImg.alt = restaurant.name + " is a favorite";
+    image.src = '/images/heart.svg';  
+    }
+  else {
+    favImg.alt = restaurant.name + " is not marked as a favorite";
+    image.src = '/images/heart-grey.svg';  
+  }
+  li.append(favImg);    
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;

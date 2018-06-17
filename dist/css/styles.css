@@ -239,6 +239,16 @@ nav h1 a {
   text-decoration: none;
   text-transform: uppercase; }
 
+  #restaurants-list h3{
+    display: inline;
+  }
+  
+  .favImg {
+    max-height: 50px;
+
+  }
+
+
 /* ====================== Restaurant Details ====================== */
 .inside h1 {
   background-color: #252831;

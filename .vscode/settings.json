@@ -9,5 +9,6 @@
             "**/*.scss",
             "**/*.sass"
     ],
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "liveServer.settings.multiRootWorkspaceName": "mws-restaurant-stage-1"
 }
