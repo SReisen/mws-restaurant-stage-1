@@ -157,6 +157,19 @@ createRestaurantHTML = (restaurant) => {
 
   li.tabIndex = 0;
 
+ // Add heart image if favorite
+ const favImg = document.createElement('img'); 
+ favImg.className = 'fav-img'; 
+ if (restaurant.is_favorite == true){
+   favImg.alt = restaurant.name + " is a favorite";
+   favImg.src = '/images/heart.svg';  
+   }
+ else {
+   favImg.alt = restaurant.name + " is not marked as a favorite";
+   favImg.src = '/images/heart-grey.svg';  
+ }
+ li.append(favImg);   
+
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.alt = "restaurant " + restaurant.name;
@@ -176,18 +189,7 @@ createRestaurantHTML = (restaurant) => {
   name.innerHTML = restaurant.name;
   li.append(name);
 
-  // Add heart image if favorite
-  const favImg = document.createElement('img'); 
-  favImg.className = 'fav-img'; 
-  if (restaurant.is_favorite == true){
-    favImg.alt = restaurant.name + " is a favorite";
-    image.src = '/images/heart.svg';  
-    }
-  else {
-    favImg.alt = restaurant.name + " is not marked as a favorite";
-    image.src = '/images/heart-grey.svg';  
-  }
-  li.append(favImg);    
+  
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
