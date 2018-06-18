@@ -12,6 +12,7 @@ var dbPromise = idb.open('RestaurantDB', 1, function(upgradeDb){
     if (!upgradeDb.objectStoreNames.contains('restaurantStore')) {
         var store = upgradeDb.createObjectStore('restaurantStore', {keyPath: 'id'});
     }
+
     if (!upgradeDb.objectStoreNames.contains('reviewStore')) {
         var revStore = upgradeDb.createObjectStore('reviewStore', {keyPath: 'id'});
         revStore.createIndex('restIndex', 'restaurant_id', {unique: false});
@@ -29,6 +30,18 @@ fillDB = (restaurants) => {
             store.put(restaurant);
         })
     })
+}
+fillReviewDB = (reviews) =>{
+    dbPromise.then(function(db){
+        var tx = db.transaction('reviewStore', 'readwrite');
+        var store = tx.objectStore('reviewStore');
+        reviews.forEach(function(review){
+            // Add reviews here???
+            store.put(review);
+        })
+    })
+
+
 }
 // make it sense??? 
 writeDBItem = (data) => {

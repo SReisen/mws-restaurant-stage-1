@@ -32,6 +32,16 @@ class DBHelper {
     })
   }
 
+    // fetch all reviews
+  static fetchReviews(callback){
+    fetch('http://localhost:1337/reviews/')
+      .then(response => response.json())
+      .then(reviewJSON =>{
+        let reviews = reviewJSON;
+        fillReviewDB(reviews);
+      })
+  }
+
   /**
    * Fetch a restaurant by its ID.
    */
@@ -42,6 +52,8 @@ class DBHelper {
       .then(restaurantJSON =>{
         let restaurantData = restaurantJSON;
       })
+
+
     // fetch all restaurants with proper error handling.
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {

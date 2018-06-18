@@ -156,6 +156,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
+  // Add button to write own review
   const writeRev = document.createElement('BUTTON');
   writeRev.innerHTML = '+ Write your own review';
   container.appendChild(writeRev);
