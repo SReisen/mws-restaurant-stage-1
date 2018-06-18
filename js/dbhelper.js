@@ -22,6 +22,7 @@ class DBHelper {
       .then (restaurantJSON =>{
         let restaurants = restaurantJSON;
         fillDB(restaurants);
+        // Add reviews??? or in fill DB
         callback(null,restaurants);
       })
     .catch(function() {   
@@ -35,6 +36,12 @@ class DBHelper {
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
+    // new function
+    fetch(`http://localhost:${port}/restaurants/${id}`)
+      .then(response => response.json())
+      .then(restaurantJSON =>{
+        let restaurantData = restaurantJSON;
+      })
     // fetch all restaurants with proper error handling.
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {

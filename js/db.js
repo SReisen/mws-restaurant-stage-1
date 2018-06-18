@@ -9,8 +9,15 @@ if (!window.indexedDB) {
 
 // open Database and upgrade if nessessarry
 var dbPromise = idb.open('RestaurantDB', 1, function(upgradeDb){
+    if (!upgradeDb.objectStoreNames.contains('restaurantStore')) {
         var store = upgradeDb.createObjectStore('restaurantStore', {keyPath: 'id'});
-    })
+    }
+    if (!upgradeDb.objectStoreNames.contains('reviewStore')) {
+        var revStore = upgradeDb.createObjectStore('reviewStore', {keyPath: 'id'});
+        revStore.createIndex('restIndex', 'restaurant_id', {unique: false});
+    }
+
+})
 
 // Fill and Update DB
 fillDB = (restaurants) => {
@@ -18,11 +25,20 @@ fillDB = (restaurants) => {
         var tx = db.transaction('restaurantStore', 'readwrite');
         var store = tx.objectStore('restaurantStore');
         restaurants.forEach(function(restaurant){
+            // Add reviews here???
             store.put(restaurant);
         })
     })
-
 }
+// make it sense??? 
+writeDBItem = (data) => {
+    dbPromise.then(function(db){
+        var tx = db.transaction('restaurantStore', 'readwrite');
+        var store = tx.objectStore('restaurantStore');
+       store.put(data);      
+    })    
+}
+
 // read singe item for detailpage
 readDBItem = (id) =>{
     dbPromise.then(db => {
