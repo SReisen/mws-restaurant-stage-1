@@ -26,30 +26,32 @@ fillDB = (restaurants) => {
         var tx = db.transaction('restaurantStore', 'readwrite');
         var store = tx.objectStore('restaurantStore');
         restaurants.forEach(function(restaurant){
-            // Add reviews here???
             store.put(restaurant);
         })
     })
 }
+
+// Fill review store
 fillReviewDB = (reviews) =>{
     dbPromise.then(function(db){
         var tx = db.transaction('reviewStore', 'readwrite');
         var store = tx.objectStore('reviewStore');
         reviews.forEach(function(review){
-            // Add reviews here???
             store.put(review);
         })
     })
-
-
 }
-// make it sense??? 
-writeDBItem = (data) => {
-    dbPromise.then(function(db){
-        var tx = db.transaction('restaurantStore', 'readwrite');
-        var store = tx.objectStore('restaurantStore');
-       store.put(data);      
-    })    
+
+// Use the objectstore index to return reviews
+readReviewsByID = (restID) => {
+    return dbPromise.then(function(db){
+        var tx = db.transaction('reviewStore', 'readonly');
+        var revStore = tx.objectStore('reviewStore');
+
+        var retRevStore = revStore.index('restIndex').getAll(restID);
+        console.log(retRevStore); //contains all expected reviews
+        return retRevStore;
+    })
 }
 
 // read singe item for detailpage
