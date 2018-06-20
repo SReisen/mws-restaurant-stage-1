@@ -31,9 +31,18 @@ class DBHelper {
         })
     })
   }
-
+  static fetchReviewById(id){
+    var fetUrl = 'http://localhost:1337/reviews/?restaurant_id=' + id;
+    console.log(fetUrl);
+    return fetch(fetUrl)
+    .then(response => response.json())
+    .then(reviewJSON =>{
+      let reviews = reviewJSON;
+      return reviews;
+  })
+}
     // fetch all reviews
-  static fetchReviews(id){
+  static fetchReviews(id, callback){
     fetch('http://localhost:1337/reviews/')
       .then(response => response.json())
       .then(reviewJSON =>{
@@ -41,16 +50,16 @@ class DBHelper {
         fillReviewDB(reviews);
         console.log('id: ' + id);
         //callback(readReviewsByID(id));// produziert Fehler
-        readReviewsByID(id).then(function(reData){
+        return readReviewsByID(id).then(function(reData){
           console.log('redata= ' + JSON.stringify(reData));
-          return JSON.stringify(reData);
-          //callback2(null, reData);
+          //return JSON.stringify(reData);
+          return(null, reData);
         })
         console.log('after callback')
       })
     .catch(function(e) {   
           console.log(e);
-          //callback(null, err);
+          //callback(null, e);
           })
       
       

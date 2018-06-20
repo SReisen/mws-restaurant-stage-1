@@ -1,6 +1,8 @@
 let restaurant;
 let reviews;
+let revTrans;
 var map;
+
 
 
 /** 
@@ -50,6 +52,12 @@ window.initMap = () => {
     }
   });
 }
+fetchReview = (id) =>{
+  return DBHelper.fetchReviewById(id).then(function(reviews){
+    return reviews;
+    //return JSON.stringify(reviews)
+  })
+}
 
 /**
  * Get current restaurant from page URL.
@@ -70,8 +78,12 @@ fetchRestaurantFromURL = (callback) => {
         console.error(error);
         return;
       }
+      //hook
+      fetchReview(self.restaurant.id).then(function(rev){
+        revTrans = rev;
+        console.log('reviews sind hier: ' + reviews);
       fillRestaurantHTML();
-      callback(null, restaurant)
+      callback(null, restaurant);})
     });
   }
 }
@@ -152,8 +164,10 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-//fillReviewsHTML = (reviews = self.restaurant.reviews) => {
-fillReviewsHTML = (reviews = DBHelper.fetchReviews(self.restaurant.id)) => {
+fillReviewsHTML = (reviews = revTrans) => {
+  //reviews = DBHelper.fetchReviewById(self.restaurant.id)
+//fillReviewsHTML = (reviews = (DBHelper.fetchReviewById(self.restaurant.id).then(function(reviews){return JSON.stringify(reviews) }))) => {
+  console.log(reviews);
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
