@@ -184,6 +184,14 @@ fillReviewsHTML = (reviews = revTrans) => {
   writeRev.innerHTML = '+ Write your own review';
   container.appendChild(writeRev);
 
+  // Add button to mark the restaurant a favorite
+  const markFav = document.createElement('BUTTON');
+  markFav.innerHTML = 'mark Favorit';
+  container.appendChild(markFav);
+
+
+
+
   if (!reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
