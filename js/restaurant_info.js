@@ -52,6 +52,7 @@ window.initMap = () => {
     }
   });
 }
+// Load reviews from DB or fetch it
 fetchReview = (id) =>{
   return readReviewsByID(id).then(function(reviews){
     // If no reviews found in DB => fetch reviews
@@ -65,6 +66,12 @@ fetchReview = (id) =>{
     else return reviews;
   })
 }
+// Set is_favorit value of restaurant
+setFavorit = (val) =>{
+  self.restaurant.is_favorite = val;
+  // Todo network push favorite
+}
+
 
 /**
  * Get current restaurant from page URL.
@@ -186,7 +193,16 @@ fillReviewsHTML = (reviews = revTrans) => {
 
   // Add button to mark the restaurant a favorite
   const markFav = document.createElement('BUTTON');
-  markFav.innerHTML = 'mark Favorit';
+  if (self.restaurant.is_favorite){
+    markFav.innerHTML = 'unmark Favorit'; 
+    markFav.onclick = setFavorit(false);
+  }
+  else {
+    markFav.innerHTML = 'mark Favorit';
+    markFav.onclick = setFavorit(true);
+  }
+  console.log(self.restaurant.is_favorite);
+
   container.appendChild(markFav);
 
 
