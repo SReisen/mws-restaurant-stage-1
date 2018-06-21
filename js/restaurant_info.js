@@ -53,9 +53,16 @@ window.initMap = () => {
   });
 }
 fetchReview = (id) =>{
-  return DBHelper.fetchReviewById(id).then(function(reviews){
-    return reviews;
-    //return JSON.stringify(reviews)
+  return readReviewsByID(id).then(function(reviews){
+    // If no reviews found in DB => fetch reviews
+    if (reviews == 'undefined' || reviews == ''){
+      console.log('Review Error: ' + reviews);
+      // return DBHelper.fetchReviewById(id).then(function(reviews){
+      return DBHelper.fetchReviews(id).then(function(reviews){
+        return reviews;  
+      })
+    }
+    else return reviews;
   })
 }
 
@@ -81,7 +88,7 @@ fetchRestaurantFromURL = (callback) => {
       //hook
       fetchReview(self.restaurant.id).then(function(rev){
         revTrans = rev;
-        console.log('reviews sind hier: ' + reviews);
+        console.log('reviews sind hier: ' + rev);
       fillRestaurantHTML();
       callback(null, restaurant);})
     });

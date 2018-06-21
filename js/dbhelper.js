@@ -42,13 +42,13 @@ class DBHelper {
   })
 }
     // fetch all reviews
-  static fetchReviews(id, callback){
-    fetch('http://localhost:1337/reviews/')
+  static fetchReviews(id){
+    return fetch('http://localhost:1337/reviews/')
       .then(response => response.json())
       .then(reviewJSON =>{
         let reviews = reviewJSON;
         fillReviewDB(reviews);
-        console.log('id: ' + id);
+        console.log('DB filled.... ');
         //callback(readReviewsByID(id));// produziert Fehler
         return readReviewsByID(id).then(function(reData){
           console.log('redata= ' + JSON.stringify(reData));

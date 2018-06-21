@@ -9,12 +9,12 @@ var markers = []
  */
 const switch_map = () => {    
     if (document.getElementById('map').style.display === 'none') {
-      document.getElementById('map-image').src = '/images/map-hide.svg';
+      document.getElementById('map-image').src = '/icon/map-hide.svg';
       document.getElementById('map-image').setAttribute('aria-pressed','true');     
       document.getElementById('map').style.display = 'block'
     }
     else{   
-      document.getElementById('map-image').src = '/images/map-show.svg';
+      document.getElementById('map-image').src = '/icon/map-show.svg';
       document.getElementById('map-image').setAttribute('aria-pressed','false');   
       document.getElementById('map').style.display = 'none'   
     }
@@ -157,34 +157,32 @@ createRestaurantHTML = (restaurant) => {
 
   li.tabIndex = 0;
 
- // Add heart image if favorite
- const favImg = document.createElement('img'); 
- favImg.className = 'fav-img'; 
- if (restaurant.is_favorite == true){
-   favImg.alt = restaurant.name + " is a favorite";
-   favImg.src = '/images/heart.svg';  
-   }
- else {
-   favImg.alt = restaurant.name + " is not marked as a favorite";
-   favImg.src = '/images/heart-grey.svg';  
- }
- li.append(favImg);   
-
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.alt = "restaurant " + restaurant.name;
   imgUrl = DBHelper.imageUrlForRestaurant(restaurant);
   // if image not found use no-pic.svg
   if (imgUrl == '/images/undefined.jpg'){
-    image.src = '/images/no-pic.svg';  
+    image.src = '/icon/no-pic.svg';  
     image.alt = "Sorry, there is no image for " + restaurant.name;
   }
- 
   else image.src = imgUrl.replace('.jpg', '-300px.jpg');
-
-
   li.append(image); 
-  
+
+  // Add heart image if favorite
+ const favImg = document.createElement('img'); 
+ favImg.className = 'fav-img'; 
+ if (restaurant.is_favorite == true){
+   favImg.alt = restaurant.name + " is a favorite";
+   favImg.src = '/icon/heart.svg'; 
+   li.append(favImg);    
+   }
+ /*else {
+   favImg.alt = restaurant.name + " is not marked as a favorite";
+   favImg.src = '/images/heart-grey.svg';  
+ }
+ li.append(favImg);  */
+
   const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   li.append(name);

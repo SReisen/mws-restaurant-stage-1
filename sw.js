@@ -9,9 +9,12 @@ let siteCacheUrls = [
     'js/main.js',
     'js/idb.js',
     'js/db.js',
-    'images/map-show.svg',
-    'images/map-hide.svg',
-    'images/no-pic.svg',
+    'icon/map-show.svg',
+    'icon/map-hide.svg',
+    'icon/no-pic.svg',
+    'icon/heart.svg',
+    'icon/icons-192.png',
+    'icon/icons-512.png',
     'js/restaurant_info.js'
     ];
 
