@@ -145,7 +145,6 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   name.innerHTML = restaurant.name;
 
 // Show red hart if favorite. 
-// Todo: creat as button, contact server.
 const favImg = document.createElement('img');
 favImg.className = 'fav-img';
   if (restaurant.is_favorite == true){
@@ -160,8 +159,6 @@ favImg.className = 'fav-img';
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
-
-
     
   const image = document.getElementById('restaurant-img');
 
@@ -214,8 +211,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  * Create all reviews HTML and add them to the webpage.
  */
 fillReviewsHTML = (reviews = revTrans) => {
-  //reviews = DBHelper.fetchReviewById(self.restaurant.id)
-//fillReviewsHTML = (reviews = (DBHelper.fetchReviewById(self.restaurant.id).then(function(reviews){return JSON.stringify(reviews) }))) => {
   console.log(reviews);
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
@@ -229,22 +224,9 @@ fillReviewsHTML = (reviews = revTrans) => {
   // Add button to mark the restaurant a favorite
   markFav = document.createElement('BUTTON');
   updateFavButton();
-  /*if (self.restaurant.is_favorite){
-    markFav.innerHTML = 'unmark Favorit'; 
-  }
-  else {
-    markFav.innerHTML = 'mark Favorit';
-  }*/
-        //fetch(favUrl, {'method' : 'post}'});
-        markFav.setAttribute("onclick","setFavorit(" + self.restaurant.id + ")");
-  //markFav.onclick = "setFavorite(" + self.restaurant.id + self.restaurant.is_favorite + ")"
+  markFav.setAttribute("onclick","setFavorit(" + self.restaurant.id + ")"); 
   console.log(self.restaurant.is_favorite);
-  // setFavorit(self.restaurant.id, self.restaurant.is_favorite);
-  
   container.appendChild(markFav);
-
-
-
 
   if (!reviews) {
     const noReviews = document.createElement('p');

@@ -31,6 +31,7 @@ class DBHelper {
         })
     })
   }
+  
   static fetchReviewById(id){
     var fetUrl = 'http://localhost:1337/reviews/?restaurant_id=' + id;
     console.log(fetUrl);
@@ -41,7 +42,8 @@ class DBHelper {
       return reviews;
   })
 }
-    // fetch all reviews
+
+ // fetch all reviews
   static fetchReviews(id){
     return fetch('http://localhost:1337/reviews/')
       .then(response => response.json())
@@ -60,9 +62,7 @@ class DBHelper {
     .catch(function(e) {   
           console.log(e);
           //callback(null, e);
-          })
-      
-      
+          })    
   }
 
   /**
