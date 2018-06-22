@@ -172,7 +172,8 @@ createRestaurantHTML = (restaurant) => {
   // Add heart image if favorite
  const favImg = document.createElement('img'); 
  favImg.className = 'fav-img'; 
- if (restaurant.is_favorite == true){
+ console.log(restaurant.id + ", " + restaurant.is_favorite);
+ if (restaurant.is_favorite){
    favImg.alt = restaurant.name + " is a favorite";
    favImg.src = '/icon/heart.svg'; 
    li.append(favImg);    

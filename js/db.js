@@ -71,5 +71,37 @@ readDB = () =>{
    
      })
 }
+/*
+setFavorit = (rid) =>{ 
+    let fav;
+    let val;
+    // Read and change DB entries
+    dbPromise.then(db => {
+        let store = db.transaction('restaurantStore', 'readwrite').objectStore('restaurantStore');
+        let getVal = store.get(rid)
+            .then(function(){
+                val = !getVal.is_favorite;       
+                fav = {
+                     id: rid,
+                    is_favorite : val
+                };      
+            console.log(getVal + " " + val);
+            store.put(fav);  
 
+
+        })
+        
+    }).then(function(){
+        //Change value via API
+        favUrl = 'http://localhost:1337/restaurants/' + rid +'/?is_favorite=' + val;
+        r = fetch(favUrl, {method : 'POST'});
+    }).then(r => {
+        console.log(r + " " + val);
+    
+       // return r.json();
+    })
+    .catch(function (error) {
+        console.log('Request failed', error);
+    });
+}*/
 

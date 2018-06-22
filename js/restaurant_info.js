@@ -2,6 +2,7 @@ let restaurant;
 let reviews;
 let revTrans;
 var map;
+let markFav;
 
 
 
@@ -22,12 +23,12 @@ window.addEventListener('load', function() {
    */
   const switch_map = () => {    
       if (document.getElementById('map').style.display === 'none') {
-        document.getElementById('map-image').src = '/images/map-hide.svg';
+        document.getElementById('map-image').src = '/icon/map-hide.svg';
         document.getElementById('map-image').setAttribute('aria-pressed','true');     
         document.getElementById('map').style.display = 'block'
       }
       else{   
-        document.getElementById('map-image').src = '/images/map-show.svg';
+        document.getElementById('map-image').src = '/icon/map-show.svg';
         document.getElementById('map-image').setAttribute('aria-pressed','false');   
         document.getElementById('map').style.display = 'none'   
       }
@@ -52,6 +53,44 @@ window.initMap = () => {
     }
   });
 }
+//Toggle mark favorite button
+updateFavButton = () =>{
+  if (self.restaurant.is_favorite){
+    markFav.innerHTML = 'unmark Favorit'; 
+  }
+  else {
+    markFav.innerHTML = 'mark Favorit';
+  }
+}
+
+setFavorit = (rid) =>{ 
+  let fav;
+  // if value is not set by API
+  if (self.restaurant.is_favorite == 'undefined') self.restaurant.is_favorite = false;
+  let val = !self.restaurant.is_favorite;   
+  // Read and change DB entries
+  dbPromise.then(db => {
+      let store = db.transaction('restaurantStore', 'readwrite').objectStore('restaurantStore');         
+              fav = {
+                   id: rid,
+                  is_favorite : val
+              };      
+          console.log(val);
+          store.put(fav);  
+        self.restaurant.is_favorite = val;     
+        updateFavButton();  
+  }).then(function(){
+      //Change value via API
+      favUrl = 'http://localhost:1337/restaurants/' + rid +'/?is_favorite=' + val;
+      r = fetch(favUrl, {method : 'POST'});
+  /*}).then(r => {
+      console.log(r + " " + val);*/
+  })
+  .catch(function (error) {
+      console.log('Request failed', error);
+  });
+}
+
 // Load reviews from DB or fetch it
 fetchReview = (id) =>{
   return readReviewsByID(id).then(function(reviews){
@@ -66,11 +105,7 @@ fetchReview = (id) =>{
     else return reviews;
   })
 }
-// Set is_favorit value of restaurant
-setFavorit = (val) =>{
-  self.restaurant.is_favorite = val;
-  // Todo network push favorite
-}
+
 
 
 /**
@@ -115,11 +150,11 @@ const favImg = document.createElement('img');
 favImg.className = 'fav-img';
   if (restaurant.is_favorite == true){
     favImg.alt = restaurant.name + " is a favorite";
-    favImg.src = '/images/heart.svg';  
+    favImg.src = '/icon/heart.svg';  
     } 
   else{
     favImg.alt = restaurant.name + " is not marked as a favorite";
-    favImg.src = '/images/heart-grey.svg';  
+    favImg.src = '/icon/heart-grey.svg';  
   } 
   document.getElementById('restaurant-address').append(favImg);
 
@@ -134,8 +169,8 @@ favImg.className = 'fav-img';
   image.alt = 'restaurant ' + restaurant.name;
   // choose image resolution depending on window with
   const winWith = window.innerWidth;
-  if (DBHelper.imageUrlForRestaurant(restaurant) == '/images/undefined.jpg'){
-    image.src = '/images/no-pic.svg';
+  if (DBHelper.imageUrlForRestaurant(restaurant) == '/icon/undefined.jpg'){
+    image.src = '/icon/no-pic.svg';
     image.alt = "Sorry, there is no image for " + restaurant.name;
   }
   else if (winWith > 800) { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-800px.jpg'); }
@@ -192,17 +227,20 @@ fillReviewsHTML = (reviews = revTrans) => {
   container.appendChild(writeRev);
 
   // Add button to mark the restaurant a favorite
-  const markFav = document.createElement('BUTTON');
-  if (self.restaurant.is_favorite){
+  markFav = document.createElement('BUTTON');
+  updateFavButton();
+  /*if (self.restaurant.is_favorite){
     markFav.innerHTML = 'unmark Favorit'; 
-    markFav.onclick = setFavorit(false);
   }
   else {
     markFav.innerHTML = 'mark Favorit';
-    markFav.onclick = setFavorit(true);
-  }
+  }*/
+        //fetch(favUrl, {'method' : 'post}'});
+        markFav.setAttribute("onclick","setFavorit(" + self.restaurant.id + ")");
+  //markFav.onclick = "setFavorite(" + self.restaurant.id + self.restaurant.is_favorite + ")"
   console.log(self.restaurant.is_favorite);
-
+  // setFavorit(self.restaurant.id, self.restaurant.is_favorite);
+  
   container.appendChild(markFav);
 
 
