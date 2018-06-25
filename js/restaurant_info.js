@@ -6,6 +6,7 @@ let markFav;
 
 
 
+
 /** 
  * The following function was written by david walsh and found on https://davidwalsh.name/lazyload-image-fade
  * */
@@ -65,13 +66,27 @@ updateFavButton = () =>{
 
 openForm = () => {
   console.log('openForm called');
-  document.getElementById('reviewModal').style.display = 'block'
+  document.getElementById('reviewModal').style.display = 'block';
 }
-
-processForm = (data) => {
+closeForm = () => {
+  console.log('openForm called');
+  document.getElementById('reviewModal').style.display = 'none'; 
+}
+setStars = (stars) =>{
+  // TODO fill rating with stars
+}
+processForm = () => {
   // Todo save and send form
   console.log('processForm wurde aufgerufen');
-  console.log(data);
+  let fname = document.getElementById("formName").value;
+  let frate = 4;// test value 
+  let ftext = document.getElementById("comments").value;
+  let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + fname + ', "rating": ' + frate + ', "comments": ' + ftext + '}';
+
+
+
+  console.log(formJSON);
+  return false;
 
 }
 
@@ -266,7 +281,8 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = new date(review.date).toDateString();
+  const createdDate = new Date(self.restaurant.createdAt);
+  date.innerHTML = createdDate.toDateString();
   li.appendChild(date);
 
   const rating = document.createElement('p');
@@ -285,11 +301,13 @@ createReviewHTML = (review) => {
  */
 createReviewFormHtml = () => {
   // Add hidden id field to add restaurant ID into JSON
-  const formId = document.createElement("INPUT");
+  /*const formId = document.createElement("INPUT");
   formId.type = "hidden";
   formId.id = "restaurant_id";
   formId.value = self.restaurant.id;
-  document.getElementById("fieldName").appendChild(formId);
+  document.getElementById("fieldName").appendChild(formId);*/
+
+  //document.getElementById("submit").onclick = processForm();
   
 }
 

@@ -42,13 +42,14 @@
       <table id="restaurant-hours" aria-label="opening hours"></table>
     </section>
     <!-- end restaurant -->
+
     <!-- Beginning Form-->
     <div id="reviewModal" class="modalBox">
       <h2>Please use this form to review the restaurant</h2>
-        <form id="userRating" onsubmit="processForm(); return false;" >
+        <form id="userRating" > 
           <div id="fieldName">
              <label for="name">Name:</label>
-            <input type="text" value="Please enter your name here.." id="name" aria-required="true"/>
+            <input type="text" placeholder="Please enter your name here.." id="formName" aria-required="true"/>
           </div>
           <div>
               <fieldset id="ratingPoints">
@@ -77,10 +78,10 @@
             </div>
             <div id="fieldReview">  
               <label for="text">Review</label>
-              <textarea id="comments" name="text" cols="35" rows="4"></textarea> 	
+              <textarea id="comments" placeholder="Please write your comment here.." name="formText" cols="35" rows="4"></textarea> 	
             </div>     
-        <input class="button" id="submit" type="submit" value="Send" />
-        <input class="button"  id="abort" type="submit" value="Abort" />
+        <input class="button" id="submit" onclick="processForm()" type="button" value="Send" />
+        <input class="button"  id="abort" onclick="closeForm()" type="button" value="Abort" />
       </form>
   </div>
     <!-- End Form-->
