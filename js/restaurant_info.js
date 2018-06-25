@@ -81,11 +81,21 @@ processForm = () => {
   let fname = document.getElementById("formName").value;
   let frate = 4;// test value 
   let ftext = document.getElementById("comments").value;
-  let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + fname + ', "rating": ' + frate + ', "comments": ' + ftext + '}';
-
-
-
+  //last trty """"
+  let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + '"' + fname +'"' + ', "rating": ' + frate + ', "comments": ' + '"' + ftext +'"' + '}';
   console.log(formJSON);
+
+  fetch('http://localhost:1337/reviews/', {
+    method: 'post',
+    mode : 'no-cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: formJSON //JSON.stringify(formJSON)
+  }).then(res=>res.json())
+  .catch(error => console.log('Error:', error))
+  .then(res => console.log(res));
+
   return false;
 
 }
