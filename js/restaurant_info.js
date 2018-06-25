@@ -63,6 +63,18 @@ updateFavButton = () =>{
   }
 }
 
+openForm = () => {
+  console.log('openForm called');
+  document.getElementById('reviewModal').style.display = 'block'
+}
+
+processForm = (data) => {
+  // Todo save and send form
+  console.log('processForm wurde aufgerufen');
+  console.log(data);
+
+}
+
 setFavorit = (rid) =>{ 
   let fav;
   // if value is not set by API
@@ -219,12 +231,14 @@ fillReviewsHTML = (reviews = revTrans) => {
   // Add button to write own review
   const writeRev = document.createElement('BUTTON');
   writeRev.innerHTML = '+ Write your own review';
+  writeRev.setAttribute("onclick","openForm()"); 
   container.appendChild(writeRev);
 
   // Add button to mark the restaurant a favorite
   markFav = document.createElement('BUTTON');
   updateFavButton();
   markFav.setAttribute("onclick","setFavorit(" + self.restaurant.id + ")"); 
+
   console.log(self.restaurant.is_favorite);
   container.appendChild(markFav);
 
@@ -252,7 +266,7 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = new date(review.date).toDateString();
   li.appendChild(date);
 
   const rating = document.createElement('p');
@@ -264,6 +278,19 @@ createReviewHTML = (review) => {
   li.appendChild(comments);
 
   return li;
+}
+
+/**
+ * Prepare form
+ */
+createReviewFormHtml = () => {
+  // Add hidden id field to add restaurant ID into JSON
+  const formId = document.createElement("INPUT");
+  formId.type = "hidden";
+  formId.id = "restaurant_id";
+  formId.value = self.restaurant.id;
+  document.getElementById("fieldName").appendChild(formId);
+  
 }
 
 /**
