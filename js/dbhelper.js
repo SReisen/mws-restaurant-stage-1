@@ -42,7 +42,7 @@ class DBHelper {
       return reviews;
   })
 }
-
+// spilt in 2 parts fetch all and by id!!!!
  // fetch all reviews
   static fetchReviews(id){
     return fetch('http://localhost:1337/reviews/')

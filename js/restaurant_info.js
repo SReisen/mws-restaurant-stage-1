@@ -3,6 +3,7 @@ let reviews;
 let revTrans;
 var map;
 let markFav;
+let condition;
 
 
 
@@ -18,7 +19,30 @@ window.addEventListener('load', function() {
     };
   })
   });
+  /**
+  * Add eventlistener to check online status. Snippet from https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/Online_and_offline_events
+  **/
+  window.addEventListener('load', function() {
+    var status = document.getElementById("status");
+    var log = document.getElementById("log");
   
+    function updateOnlineStatus(event) {
+      condition = navigator.onLine ? "online" : "offline";
+      console.log('Condition: ' + condition);
+      if (condition == "online"){
+        console.log('Yeah, back online.....');
+        sendAllOfflineReviews();
+
+      }
+     /* status.className = condition;
+      status.innerHTML = condition.toUpperCase();
+  
+      log.insertAdjacentHTML("beforeend", "Event: " + event.type + "; Status: " + condition);*/
+    }
+  
+    window.addEventListener('online',  updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+  });
   /**
    * Turn Googlemaps on / off on mobile view, This is nessessary to reach performance goals.
    */
@@ -68,12 +92,38 @@ openForm = () => {
   console.log('openForm called');
   document.getElementById('reviewModal').style.display = 'block';
 }
+
 closeForm = () => {
-  console.log('openForm called');
+  console.log('closeForm called');
   document.getElementById('reviewModal').style.display = 'none'; 
+  resetForm();
 }
+
+resetForm = () => {
+  document.getElementById("userRating").reset();
+}
+
 setStars = (stars) =>{
   // TODO fill rating with stars
+}
+/**
+ * get JSON and try to send, on error write it to upload store
+ */
+sendReview = (JSONBody) =>{
+  return fetch('http://localhost:1337/reviews/', { //return nesessary???
+    method: 'post',
+    mode : 'no-cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSONBody 
+  }).then(res=>res.json())
+  .catch(error => {
+      console.log('Error:', error);
+      // if review comes from form the write it to offlineReview store.
+      addOfflineReview(JSONBody);
+    })
+  .then(res => console.log('res'));
 }
 processForm = () => {
   // Todo save and send form
@@ -81,23 +131,26 @@ processForm = () => {
   let fname = document.getElementById("formName").value;
   let frate = 4;// test value 
   let ftext = document.getElementById("comments").value;
-  //last trty """"
-  let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + '"' + fname +'"' + ', "rating": ' + frate + ', "comments": ' + '"' + ftext +'"' + '}';
+  //Build JSON body
+  let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + '"' + fname +'"' + ', "rating": ' + frate + ', "comments": ' + '"' + ftext +'"' + '}';//+ ', "id" : 1' + '}';
+  closeForm();
+  console.log('processform condition: ' + condition);
+  if (condition  = 'online') sendReview(formJSON);
+  else addOfflineReview(formJSON);
   console.log(formJSON);
 
+/*
   fetch('http://localhost:1337/reviews/', {
     method: 'post',
     mode : 'no-cors',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: formJSON //JSON.stringify(formJSON)
+    body: formJSON 
   }).then(res=>res.json())
   .catch(error => console.log('Error:', error))
-  .then(res => console.log(res));
-
-  return false;
-
+  .then(res => console.log(res));*/
+  //return false;
 }
 
 setFavorit = (rid) =>{ 

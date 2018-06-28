@@ -5,6 +5,7 @@ let siteCacheUrls = [
     'sw.js',
     'restaurant.html',
     'dist/css/styles.css',
+    'manifest.json',
     'js/dbhelper.js',
     'js/main.js',
     'js/idb.js',
