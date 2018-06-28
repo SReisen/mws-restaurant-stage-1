@@ -34,15 +34,11 @@ window.addEventListener('load', function() {
         sendAllOfflineReviews();
 
       }
-     /* status.className = condition;
-      status.innerHTML = condition.toUpperCase();
-  
-      log.insertAdjacentHTML("beforeend", "Event: " + event.type + "; Status: " + condition);*/
-    }
-  
+    }  
     window.addEventListener('online',  updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
   });
+
   /**
    * Turn Googlemaps on / off on mobile view, This is nessessary to reach performance goals.
    */
@@ -117,7 +113,7 @@ sendReview = (JSONBody) =>{
       'Content-Type': 'application/json'
     },
     body: JSONBody 
-  }).then(res=>res.json())
+  })//.then(res=>res.json())
   .catch(error => {
       console.log('Error:', error);
       // if review comes from form the write it to offlineReview store.

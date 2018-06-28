@@ -119,8 +119,11 @@ sendAllOfflineReviews = () =>{
            // console.log('JASON: ' + JSONSend);
             oldReviewId = offlineReview.restaurant_id;
             sendReview(offlineReview).then(function(){
-                clearOfflineReview(offlineReview);
+                clearOfflineReview(offlineReview);              
             })
+            }).then(function(){
+                // wait till all reviews are send
+                 DBHelper.fetchReviews(oldReviewId);
             })
           // send offline reviews
        // })
@@ -128,9 +131,9 @@ sendAllOfflineReviews = () =>{
     // delete offlineReviews
         }).then (function(){
             console.log('OldReviewsSend, huray');
-            DBHelper.fetchReviews(oldReviewId);
+            //DBHelper.fetchReviews(oldReviewId);
             console.log('refetch started.....')
-            
+
            // fetchReviews();
         })
     
