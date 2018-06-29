@@ -37,6 +37,15 @@ fillDB = (restaurants) => {
     })
 }
 
+// read database for mainpage
+readDB = () =>{
+    return dbPromise.then(function(db){
+        var tx = db.transaction('restaurantStore');
+        var store = tx.objectStore('restaurantStore', 'readwrite');
+        return store.getAll();  
+    })
+}
+
 // Fill review store
 fillReviewDB = (reviews) =>{
     dbPromise.then(function(db){
@@ -53,9 +62,7 @@ readReviewsByID = (restID) => {
     return dbPromise.then(function(db){
         var tx = db.transaction('reviewStore', 'readonly');
         var revStore = tx.objectStore('reviewStore');
-
         var retRevStore = revStore.index('restIndex').getAll(restID);
-        console.log(retRevStore); //contains all expected reviews
         return retRevStore;
     })
 }
@@ -70,14 +77,25 @@ addOfflineReview = (JSONdata) =>{
     }) 
 }
 
+clearOfflineReview = () =>{
+    dbPromise.then(function(db){
+        var tx = db.transaction('offlineReviewStore', 'readwrite');
+        var store = tx.objectStore('offlineReviewStore');      
+        let confirmDelete = store.clear();
+        confirmDelete.onsuccess = function() {         
+           console.log('OfflineReviewStore cleared....');
+          };
+    })
+}
+
 // get all offline reviews after established internetconnection OBSOLET!!!
-readOfflineReviews = () =>{
+/*readOfflineReviews = () =>{
     return dbPromise.then(function(db){
         var tx = db.transaction('offlineReviewStore');
         var store = tx.objectStore('offlineReviewStore', 'readonly');
         return store.getAll(); 
      })
-}
+}*/
 
 // delete offline review after sending
 /*deleteOfflineReview = (offlineId) => {
@@ -90,16 +108,7 @@ readOfflineReviews = () =>{
             console.log('Item deleted');
     });
 }*/
-clearOfflineReview = () =>{
-    dbPromise.then(function(db){
-        var tx = db.transaction('offlineReviewStore', 'readwrite');
-        var store = tx.objectStore('offlineReviewStore');      
-        let confirmDelete = store.clear();
-        confirmDelete.onsuccess = function() {         
-           console.log('OfflineReviewStore cleared....');
-          };
-    })
-}
+
 /* Moved to restaurant.info
 // if system is back online send reviews
 sendAllOfflineReviews = () =>{
@@ -141,22 +150,12 @@ sendAllOfflineReviews = () =>{
 } */
 
 
-// read singe item for detailpage
-readDBItem = (id) =>{
+// read singe item for detailpage OBSOLET!!!!
+/*readDBItem = (id) =>{
     dbPromise.then(db => {
         return db.transaction('restaurantStore', 'readwrite')
           .objectStore('restaurantStore').get(id);
       }).then(obj => console.log(obj));
-}
-
-// read database for mainpage
-readDB = () =>{
-    return dbPromise.then(function(db){
-        var tx = db.transaction('restaurantStore');
-        var store = tx.objectStore('restaurantStore', 'readwrite');
-        return store.getAll();
-   
-     })
-}
+}*/
 
 
