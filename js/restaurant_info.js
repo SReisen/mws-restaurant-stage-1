@@ -92,7 +92,12 @@ resetForm = () => {
 processForm = () => {
   // read form data
   let fname = document.getElementById("formName").value;
-  let frate = 4;// test value 
+  let frate;
+  if (document.getElementById('radioButton1').checked) frate = 1;
+  else if (document.getElementById('radioButton2').checked) frate = 2;
+  else if (document.getElementById('radioButton3').checked) frate = 3;
+  else if (document.getElementById('radioButton4').checked) frate = 4;
+  else if (document.getElementById('radioButton2').checked) frate = 5;
   let ftext = document.getElementById("comments").value;
   //Build JSON body
   let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + '"' + fname +'"' + ', "rating": ' + frate + ', "comments": ' + '"' + ftext +'"' + '}';
@@ -106,9 +111,6 @@ processForm = () => {
   }
 }
 
-setStars = (stars) =>{
-  // TODO fill rating with stars
-}
 
 /**
  * Send all offline written reviews and update review list
@@ -341,7 +343,7 @@ fillReviewsHTML = (reviews = revTrans) => {
 updateReviewList = (reviews) => {
   const ul = document.getElementById('reviews-list');
   ul.innerHTML = '';
-  
+
   if (!reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
