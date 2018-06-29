@@ -19,14 +19,16 @@ window.addEventListener('load', function() {
       img.removeAttribute('data-src');
     };
   })
-  });
+});
+
   /**
   * Add eventlistener to check online status. Snippet from https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/Online_and_offline_events
   **/
-  window.addEventListener('load', function() {
+window.addEventListener('load', function() {
     var status = document.getElementById("status");
     var log = document.getElementById("log");
     condition = navigator.onLine ? "online" : "offline";
+    console.log('Startup network condition; ' + condition);
   
     function updateOnlineStatus(event) {
       condition = navigator.onLine ? "online" : "offline";
@@ -34,48 +36,47 @@ window.addEventListener('load', function() {
       if (condition == "online"){
         console.log('Yeah, back online.....');
         sendAllOfflineReviews();
-
       }
     }  
     window.addEventListener('online',  updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
-  });
+});
 
-  /**
-   * Turn Googlemaps on / off on mobile view, This is nessessary to reach performance goals.
-   */
-  const switch_map = () => {    
-      if (document.getElementById('map').style.display === 'none') {
-        document.getElementById('map-image').src = '/icon/map-hide.svg';
-        document.getElementById('map-image').setAttribute('aria-pressed','true');     
-        document.getElementById('map').style.display = 'block'
-      }
-      else{   
-        document.getElementById('map-image').src = '/icon/map-show.svg';
-        document.getElementById('map-image').setAttribute('aria-pressed','false');   
-        document.getElementById('map').style.display = 'none'   
-      }
+/**
+* Turn Googlemaps on / off on mobile view, This is nessessary to reach performance goals.
+*/
+const switch_map = () => {    
+  if (document.getElementById('map').style.display === 'none') {
+    document.getElementById('map-image').src = '/icon/map-hide.svg';
+    document.getElementById('map-image').setAttribute('aria-pressed','true');     
+    document.getElementById('map').style.display = 'block'
+  }
+  else{   
+    document.getElementById('map-image').src = '/icon/map-show.svg';
+    document.getElementById('map-image').setAttribute('aria-pressed','false');   
+    document.getElementById('map').style.display = 'none'   
     }
+}
+
 /**
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
-      //console.error('this error:' + error);
-    } else {
+    } 
+    else {
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
         scrollwheel: false
-      });
-      
+      });     
       fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-      
+      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);      
     }
   });
 }
+
 //Toggle mark favorite button
 updateFavButton = () =>{
   if (self.restaurant.is_favorite){
@@ -104,6 +105,7 @@ resetForm = () => {
 setStars = (stars) =>{
   // TODO fill rating with stars
 }
+
 // if system is back online send reviews
 sendAllOfflineReviews = () =>{
   console.log('sendAllOfflineReviews called...');
@@ -119,12 +121,13 @@ sendAllOfflineReviews = () =>{
           sendReview(offlineReview).then(function(){
               clearOfflineReview(offlineReview);              
           })
-          }).then(function(){
-              // wait till all reviews are send
-               DBHelper.fetchReviewById(oldReviewId).then(function(reviews){
-                fillReviewsHTML(reviews); //update reviews container
-               });
           })
+        // wait till all reviews are send
+          DBHelper.fetchReviewById(oldReviewId).then(function(reviews){
+          updateReviewList(reviews); //update reviews list
+
+               });
+          
      // })
   })
   // delete offlineReviews
@@ -164,8 +167,6 @@ sendReview = (JSONBody) =>{
     console.log('sendReview => fetchReviewbyId: ' + jp);
     DBHelper.fetchReviewById(jp).then(function(reviews){
       console.log('sendReview => fetched by ID now => fillReviewsHtml');
-      //let reviewListUL = document.getElementById('reviews-list');
-      //reviewListUL.innerHTML = '';
       updateReviewList(reviews);
     })
   });
@@ -181,22 +182,15 @@ processForm = () => {
   let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + '"' + fname +'"' + ', "rating": ' + frate + ', "comments": ' + '"' + ftext +'"' + '}';//+ ', "id" : 1' + '}';
   closeForm();
   console.log('processform condition: ' + condition);
-  if (condition  = 'online') sendReview(formJSON);
-  else addOfflineReview(formJSON);
+  if (condition  == 'online') {
+    sendReview(formJSON);}
+  else {
+    // review to Reviewlist
+    console.log('send JSON to createReviewHtml');
+    document.getElementById('reviews-list').appendChild(createReviewHTML(JSON.parse(formJSON)));
+    addOfflineReview(formJSON);
+    }
   console.log(formJSON);
-
-/*
-  fetch('http://localhost:1337/reviews/', {
-    method: 'post',
-    mode : 'no-cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: formJSON 
-  }).then(res=>res.json())
-  .catch(error => console.log('Error:', error))
-  .then(res => console.log(res));*/
-  //return false;
 }
 
 setFavorit = (rid) =>{ 
@@ -241,8 +235,6 @@ fetchReview = (id) =>{
     else return reviews;
   })
 }
-
-
 
 /**
  * Get current restaurant from page URL.

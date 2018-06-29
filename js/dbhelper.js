@@ -36,13 +36,13 @@ class DBHelper {
     var fetUrl = 'http://localhost:1337/reviews/?restaurant_id=' + id;
     console.log(fetUrl);
     return fetch(fetUrl)
-    .then(response => response.json())
-    .then(reviewJSON =>{
-      let reviews = reviewJSON;
-      // Add reviews to db
-      fillReviewDB(reviews);
-      return reviews;
-  })
+      .then(response => response.json())
+      .then(reviewJSON =>{
+        let reviews = reviewJSON;
+        // Add reviews to db
+        fillReviewDB(reviews);
+        return reviews;
+      })
 }
 // spilt in 2 parts fetch all and by id!!!!
  // fetch all reviews
