@@ -75,12 +75,10 @@ window.initMap = () => {
 
 // functions to handle review form
 openForm = () => {
-  console.log('openForm called');
   document.getElementById('reviewModal').style.display = 'block';
 }
 
 closeForm = () => {
-  console.log('closeForm called');
   document.getElementById('reviewModal').style.display = 'none'; 
   resetForm();
 }
@@ -160,7 +158,6 @@ sendReview = (JSONBody) =>{
   .then(res => {
     let jp = JSON.parse(JSONBody).restaurant_id;
     DBHelper.fetchReviewById(jp).then(function(reviews){
-      console.log('sendReview => fetched by ID now => fillReviewsHtml');
       updateReviewList(reviews);
     })
   });
@@ -237,7 +234,6 @@ fetchRestaurantFromURL = (callback) => {
       }
       fetchReview(self.restaurant.id).then(function(rev){
         revTrans = rev;
-        console.log('reviews sind hier: ' + rev);
       fillRestaurantHTML();
       callback(null, restaurant);})
     });
@@ -316,7 +312,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  * Create all reviews HTML and add them to the webpage.
  */
 fillReviewsHTML = (reviews = revTrans) => {
-  console.log(reviews);
   container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
@@ -332,7 +327,6 @@ fillReviewsHTML = (reviews = revTrans) => {
   updateFavButton();
   markFav.setAttribute("onclick","setFavorit(" + self.restaurant.id + ")"); 
 
-  console.log(self.restaurant.is_favorite);
   container.appendChild(markFav);
   updateReviewList(reviews);
 }

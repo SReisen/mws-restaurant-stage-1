@@ -34,7 +34,6 @@ class DBHelper {
   
   static fetchReviewById(id){
     var fetUrl = 'http://localhost:1337/reviews/?restaurant_id=' + id;
-    console.log(fetUrl);
     return fetch(fetUrl)
       .then(response => response.json())
       .then(reviewJSON =>{
@@ -52,14 +51,11 @@ class DBHelper {
       .then(reviewJSON =>{
         let reviews = reviewJSON;
         fillReviewDB(reviews);
-        console.log('DB filled.... ');
         //callback(readReviewsByID(id));// produziert Fehler
         return readReviewsByID(id).then(function(reData){
-          console.log('redata= ' + JSON.stringify(reData));
           //return JSON.stringify(reData);
           return(null, reData);
         })
-        console.log('after callback')
       })
     .catch(function(e) {   
           console.log(e);
