@@ -125,18 +125,21 @@ updateFavButton = () =>{
 }
 
 setFavorit = (rid) =>{ 
-  let fav;
+  let restObject;
+  let favData;
   // if value is not set by API set to false
   if (self.restaurant.is_favorite == 'undefined') self.restaurant.is_favorite = false;
   let val = !self.restaurant.is_favorite;   
   // Read and change DB entries
   dbPromise.then(db => {
-      let store = db.transaction('restaurantStore', 'readwrite').objectStore('restaurantStore');         
-          fav = store.get(rid);
-          fav.is_favorite = val;    
-          store.put(fav);  
-        self.restaurant.is_favorite = val;     
-        updateFavButton();  
+      let store = db.transaction('restaurantStore', 'readwrite').objectStore('restaurantStore');  
+
+      store.get(rid).then(function(favData){
+        favData.is_favorite = val;
+        writeDBItem(favData);
+      })
+      self.restaurant.is_favorite = val;     
+      updateFavButton();  
   }).then(function(){
       //Change value via API
       favUrl = 'http://localhost:1337/restaurants/' + rid +'/?is_favorite=' + val;

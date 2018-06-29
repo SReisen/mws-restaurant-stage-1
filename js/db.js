@@ -46,6 +46,13 @@ readDB = () =>{
     })
 }
 
+writeDBItem = (data) =>{
+    dbPromise.then(db => {
+        return db.transaction('restaurantStore', 'readwrite')
+          .objectStore('restaurantStore').put(data);
+      }).then(obj => console.log(obj));
+}
+
 // Fill review store
 fillReviewDB = (reviews) =>{
     dbPromise.then(function(db){
