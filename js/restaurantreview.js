@@ -44,3 +44,4 @@ const switch_map = () => {
       document.getElementById('map-image').setAttribute('aria-pressed','false');   
       document.getElementById('map').style.display = 'none'   
     }
+}
