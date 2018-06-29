@@ -132,17 +132,15 @@ setFavorit = (rid) =>{
   // Read and change DB entries
   dbPromise.then(db => {
       let store = db.transaction('restaurantStore', 'readwrite').objectStore('restaurantStore');         
-              fav = {
-                   id: rid,
-                  is_favorite : val
-              };      
+          fav = store.get(rid);
+          fav.is_favorite = val;    
           store.put(fav);  
         self.restaurant.is_favorite = val;     
         updateFavButton();  
   }).then(function(){
       //Change value via API
       favUrl = 'http://localhost:1337/restaurants/' + rid +'/?is_favorite=' + val;
-      r = fetch(favUrl, {method : 'POST'});
+      let r = fetch(favUrl, {method : 'POST'});
   })
   .catch(function (error) {
       console.log('Request failed', error);
