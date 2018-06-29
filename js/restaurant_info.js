@@ -46,7 +46,7 @@ processForm = () => {
   else if (document.getElementById('radioButton2').checked) frate = 2;
   else if (document.getElementById('radioButton3').checked) frate = 3;
   else if (document.getElementById('radioButton4').checked) frate = 4;
-  else if (document.getElementById('radioButton2').checked) frate = 5;
+  else if (document.getElementById('radioButton5').checked) frate = 5;
   let ftext = document.getElementById("comments").value;
   //Build JSON body
   let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + '"' + fname +'"' + ', "rating": ' + frate + ', "comments": ' + '"' + ftext +'"' + '}';
