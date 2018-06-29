@@ -4,6 +4,7 @@ let revTrans;
 var map;
 let markFav;
 let condition;
+let container;
 
 
 
@@ -25,6 +26,7 @@ window.addEventListener('load', function() {
   window.addEventListener('load', function() {
     var status = document.getElementById("status");
     var log = document.getElementById("log");
+    condition = navigator.onLine ? "online" : "offline";
   
     function updateOnlineStatus(event) {
       condition = navigator.onLine ? "online" : "offline";
@@ -102,6 +104,40 @@ resetForm = () => {
 setStars = (stars) =>{
   // TODO fill rating with stars
 }
+// if system is back online send reviews
+sendAllOfflineReviews = () =>{
+  console.log('sendAllOfflineReviews called...');
+  let oldReviewId;
+  dbPromise.then(function(db){
+      var tx = db.transaction('offlineReviewStore', 'readwrite');
+      var store = tx.objectStore('offlineReviewStore');
+      store.getAll().then(function(offlineReviews){
+      console.log('OfflineReviews: ' + offlineReviews);
+      offlineReviews.forEach(function(offlineReview){
+          console.log(offlineReview);
+          oldReviewId = offlineReview.restaurant_id;
+          sendReview(offlineReview).then(function(){
+              clearOfflineReview(offlineReview);              
+          })
+          }).then(function(){
+              // wait till all reviews are send
+               DBHelper.fetchReviewById(oldReviewId).then(function(reviews){
+                fillReviewsHTML(reviews); //update reviews container
+               });
+          })
+     // })
+  })
+  // delete offlineReviews
+      }).then (function(){
+          console.log('OldReviewsSend, huray');
+          console.log('refetch started.....')
+
+         // fetchReviews();
+      })
+} 
+
+
+
 /**
  * get JSON and try to send, on error write it to upload store
  */
@@ -113,17 +149,31 @@ sendReview = (JSONBody) =>{
       'Content-Type': 'application/json'
     },
     body: JSONBody 
-  })//.then(res=>res.json())
+  }).then(function(){
+    console.log('POST successfull');
+  })
   .catch(error => {
-      console.log('Error:', error);
+      console.log('Arg, a network Error:', error);
       // if review comes from form the write it to offlineReview store.
       addOfflineReview(JSONBody);
     })
-  .then(res => console.log('res'));
+  .then(res => {
+    console.log('jason Body:' + JSONBody);
+    let jp = JSON.parse(JSONBody).restaurant_id;
+    console.log(jp);
+    console.log('sendReview => fetchReviewbyId: ' + jp);
+    DBHelper.fetchReviewById(jp).then(function(reviews){
+      console.log('sendReview => fetched by ID now => fillReviewsHtml');
+      //let reviewListUL = document.getElementById('reviews-list');
+      //reviewListUL.innerHTML = '';
+      updateReviewList(reviews);
+    })
+  });
+
 }
 processForm = () => {
   // Todo save and send form
-  console.log('processForm wurde aufgerufen');
+  console.log('processForm wurde aufgerufen. Condition: ' + condition);
   let fname = document.getElementById("formName").value;
   let frate = 4;// test value 
   let ftext = document.getElementById("comments").value;
@@ -184,7 +234,7 @@ fetchReview = (id) =>{
     if (reviews == 'undefined' || reviews == ''){
       console.log('Review Error: ' + reviews);
       // return DBHelper.fetchReviewById(id).then(function(reviews){
-      return DBHelper.fetchReviews(id).then(function(reviews){
+      return DBHelper.fetchReviewById(id).then(function(reviews){
         return reviews;  
       })
     }
@@ -298,7 +348,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = revTrans) => {
   console.log(reviews);
-  const container = document.getElementById('reviews-container');
+  container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
@@ -315,8 +365,8 @@ fillReviewsHTML = (reviews = revTrans) => {
 
   console.log(self.restaurant.is_favorite);
   container.appendChild(markFav);
-
-  if (!reviews) {
+  updateReviewList(reviews);
+  /*if (!reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
     container.appendChild(noReviews);
@@ -326,8 +376,30 @@ fillReviewsHTML = (reviews = revTrans) => {
   reviews.forEach(review => {
     ul.appendChild(createReviewHTML(review));
   });
+  container.appendChild(ul);*/
+}
+
+/**
+ * Clear and recreate review list. This was separeted to update reviews
+ */
+updateReviewList = (reviews) => {
+  //let reviewListUL = document.getElementById('reviews-list');
+  const ul = document.getElementById('reviews-list');
+  ul.innerHTML = '';
+  if (!reviews) {
+    const noReviews = document.createElement('p');
+    noReviews.innerHTML = 'No reviews yet!';
+    container.appendChild(noReviews);
+    return;
+  }
+  //const ul = document.getElementById('reviews-list');
+  reviews.forEach(review => {
+    ul.appendChild(createReviewHTML(review));
+  });
   container.appendChild(ul);
 }
+
+
 
 /**
  * Create review HTML and add it to the webpage.

@@ -25,7 +25,7 @@ class DBHelper {
         // Add reviews??? or in fill DB
         callback(null,restaurants);
       })
-    .catch(function() {   
+    .catch(function() {   //if there is a problem with the network....
         readDB().then(function(rdata){
         callback(null, rdata);
         })
@@ -39,6 +39,8 @@ class DBHelper {
     .then(response => response.json())
     .then(reviewJSON =>{
       let reviews = reviewJSON;
+      // Add reviews to db
+      fillReviewDB(reviews);
       return reviews;
   })
 }

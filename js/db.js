@@ -100,7 +100,7 @@ clearOfflineReview = () =>{
           };
     })
 }
-
+/* Moved to restaurant.info
 // if system is back online send reviews
 sendAllOfflineReviews = () =>{
     console.log('sendAllOfflineReviews called...');
@@ -123,7 +123,9 @@ sendAllOfflineReviews = () =>{
             })
             }).then(function(){
                 // wait till all reviews are send
-                 DBHelper.fetchReviews(oldReviewId);
+                 DBHelper.fetchReviewById(oldReviewId).then(function(){
+
+                 });
             })
           // send offline reviews
        // })
@@ -136,11 +138,9 @@ sendAllOfflineReviews = () =>{
 
            // fetchReviews();
         })
-    
-    
-    
-  
-} 
+} */
+
+
 // read singe item for detailpage
 readDBItem = (id) =>{
     dbPromise.then(db => {
