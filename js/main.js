@@ -170,26 +170,19 @@ createRestaurantHTML = (restaurant) => {
   li.append(image); 
 
   // Add heart image if favorite
- const favImg = document.createElement('img'); 
- favImg.className = 'fav-img'; 
- console.log(restaurant.id + ", " + restaurant.is_favorite);
- if (restaurant.is_favorite){
-   favImg.alt = restaurant.name + " is a favorite";
-   favImg.src = '/icon/heart.svg'; 
-   li.append(favImg);    
-   }
- /*else {
-   favImg.alt = restaurant.name + " is not marked as a favorite";
-   favImg.src = '/images/heart-grey.svg';  
- }
- li.append(favImg);  */
-
+  const favImg = document.createElement('img'); 
+  favImg.className = 'fav-img'; 
+  console.log(restaurant.id + ", " + restaurant.is_favorite);
+  if (restaurant.is_favorite){
+    favImg.alt = restaurant.name + " is a favorite";
+    favImg.src = '/icon/heart.svg'; 
+    li.append(favImg);    
+  }
+ 
   const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   li.append(name);
-
   
-
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   li.append(neighborhood);
