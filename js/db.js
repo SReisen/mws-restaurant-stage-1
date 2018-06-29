@@ -70,7 +70,7 @@ addOfflineReview = (JSONdata) =>{
     }) 
 }
 
-// get all offline reviews after established internetconnection
+// get all offline reviews after established internetconnection OBSOLET!!!
 readOfflineReviews = () =>{
     return dbPromise.then(function(db){
         var tx = db.transaction('offlineReviewStore');
