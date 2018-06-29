@@ -10,6 +10,7 @@ let siteCacheUrls = [
     'js/main.js',
     'js/idb.js',
     'js/db.js',
+    'js/restaurantreview.js',
     'icon/map-show.svg',
     'icon/map-hide.svg',
     'icon/no-pic.svg',
