@@ -1,24 +1,8 @@
 let restaurants,
   neighborhoods,
-  cuisines
-var map
-var markers = []
-
-/**
- * Turn Googlemaps on / off on mobile view, This is nessessary to reach performance goals.
- */
-const switch_map = () => {    
-    if (document.getElementById('map').style.display === 'none') {
-      document.getElementById('map-image').src = '/icon/map-hide.svg';
-      document.getElementById('map-image').setAttribute('aria-pressed','true');     
-      document.getElementById('map').style.display = 'block'
-    }
-    else{   
-      document.getElementById('map-image').src = '/icon/map-show.svg';
-      document.getElementById('map-image').setAttribute('aria-pressed','false');   
-      document.getElementById('map').style.display = 'none'   
-    }
-  }
+  cuisines;
+var map;
+var markers = [];
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
