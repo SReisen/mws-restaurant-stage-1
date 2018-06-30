@@ -17,6 +17,26 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
+    // first read data from DB
+    readDB().then(function(rdata){
+      callback(null, rdata);
+      })
+    fetch(DBHelper.DATABASE_URL)
+      .then(response => response.json())
+      .then (restaurantJSON =>{
+        let restaurants = restaurantJSON;
+        fillDB(restaurants);
+        // Add reviews??? or in fill DB
+        //callback(null,restaurants);
+        fillRestaurantsHTML(restaurants);
+      })
+    .catch(function(e) {   //if there is a problem with the network....
+        console.log('Sorry, we have no data... code:  ' + e);
+        })
+
+  }
+  /*
+  static fetchRestaurants(callback) {
     fetch(DBHelper.DATABASE_URL)
       .then(response => response.json())
       .then (restaurantJSON =>{
@@ -31,7 +51,7 @@ class DBHelper {
         })
     })
   }
-  
+  */
   static fetchReviewById(id){
     var fetUrl = 'http://localhost:1337/reviews/?restaurant_id=' + id;
     return fetch(fetUrl)
@@ -73,8 +93,6 @@ class DBHelper {
       .then(restaurantJSON =>{
         let restaurantData = restaurantJSON;
       })
-
-
     // fetch all restaurants with proper error handling.
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
