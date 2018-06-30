@@ -44,9 +44,9 @@
     <!-- end restaurant -->
 
     <!-- Beginning Form-->
-    <div id="reviewModal" class="modalBox">
-      <h2>Please use this form to review the restaurant</h2>
-        <form id="userRating" > 
+    <div id="reviewModal" class="modalBox" role="dialog" aria-modal="true" aria-labelby="modalHead">
+      <h2 id="modalHead">Please use this form to review the restaurant</h2>
+        <form id="userRating" role="form"> 
           <div id="fieldName">
              <label for="name">Name:</label>
             <input type="text" placeholder="Please enter your name here.." id="formName" aria-required="true"/>

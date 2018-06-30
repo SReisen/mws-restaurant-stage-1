@@ -271,7 +271,7 @@ fillReviewsHTML = (reviews = revTrans) => {
   // Add button to write own review
   const writeRev = document.createElement('BUTTON');
   writeRev.innerHTML = '+ Write your own review';
-  writeRev.setAttribute("onclick","openForm()"); 
+  writeRev.setAttribute("onclick","createReviewFormHTML()"); 
   container.appendChild(writeRev);
 
   // Add button to mark the restaurant a favorite
@@ -330,6 +330,12 @@ createReviewHTML = (review) => {
   return li;
 }
 
+createReviewFormHTML = () =>{
+  const modal = document.getElementById('reviewModal');
+  modal.style.display = 'block';
+  const ul = document.getElementById('reviews-list');
+  ul.insertBefore(modal, ul.childNodes[0]);
+}
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */

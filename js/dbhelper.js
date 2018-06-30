@@ -35,23 +35,7 @@ class DBHelper {
         })
 
   }
-  /*
-  static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL)
-      .then(response => response.json())
-      .then (restaurantJSON =>{
-        let restaurants = restaurantJSON;
-        fillDB(restaurants);
-        // Add reviews??? or in fill DB
-        callback(null,restaurants);
-      })
-    .catch(function() {   //if there is a problem with the network....
-        readDB().then(function(rdata){
-        callback(null, rdata);
-        })
-    })
-  }
-  */
+  
   static fetchReviewById(id){
     var fetUrl = 'http://localhost:1337/reviews/?restaurant_id=' + id;
     return fetch(fetUrl)
