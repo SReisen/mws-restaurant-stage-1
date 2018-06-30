@@ -17,6 +17,7 @@ let siteCacheUrls = [
     'icon/heart.svg',
     'icon/icons-192.png',
     'icon/icons-512.png',
+    'icon/favicon.ico',
     'js/restaurant_info.js'
     ];
 

@@ -42,8 +42,49 @@
       <table id="restaurant-hours" aria-label="opening hours"></table>
     </section>
     <!-- end restaurant -->
+
     <!-- Beginning Form-->
-    
+    <div id="reviewModal" class="modalBox">
+      <h2>Please use this form to review the restaurant</h2>
+        <form id="userRating" > 
+          <div id="fieldName">
+             <label for="name">Name:</label>
+            <input type="text" placeholder="Please enter your name here.." id="formName" aria-required="true"/>
+          </div>
+          <div>
+              <fieldset id="ratingPoints">
+               <legend>How many points...  </legend>
+                 <div>
+                  <input type="radio" id="radioButton1" name="rating" value="1"/>
+                  <label for="1">1</label>
+                </div>
+                <div>
+                  <input type="radio" id="radioButton2" name="rating" value="2"/>
+                  <label for="2">2</label>
+                </div>
+                <div>
+                  <input type="radio" id="radioButton3" name="rating" value="3" checked />
+                  <label for="3">3</label>
+                </div>
+                <div>
+                  <input type="radio" id="radioButton4" name="rating" value="4" />
+                  <label for="4">4</label>
+                </div>
+                <div>
+                  <input type="radio" id="radioButton5" name="rating" value="5"/>
+                  <label for="5">5</label>
+                </div>
+              </fieldset>
+            </div>
+            <div id="fieldReview">  
+              <label for="text">Review</label>
+              <textarea id="comments" placeholder="Please write your comment here.." name="formText" cols="35" rows="4"></textarea> 	
+            </div>     
+        <input class="button" id="submit" onclick="processForm()" type="button" value="Send" />
+        <input class="button"  id="btn-reset" onclick="resetForm()" type="button" value="Reset" />
+        <input class="button"  id="abort" onclick="closeForm()" type="button" value="Abort" />
+      </form>
+  </div>
     <!-- End Form-->
     <!-- Beginning reviews -->
     <section id="reviews-container" aria-label="Customer reviews">
@@ -57,29 +98,15 @@
     <!-- End map -->
   </main>
   <!-- End main -->
-<form id="rating" >
-      <div>
-        <label for="name">Name:</label>
-        <input type="text" value="name" id="name" aria-required="true"/>
-      </div>
-      <div>
-        <label for="rating">Rating:</label>
-        <input type="text" value="rating" id="rating" aria-required="true"/>
-      </div>
-      <div>  
-        <label for="text">Review</label>
-           <textarea id="text" name="text" cols="35" rows="4"></textarea> 	
-      </div>     
-      <input type="submit" value="Send" />
-    </form>
   <!-- Beginning footer -->
   <footer id="footer">
-    Copyright (c) 2017 <a href="/" title="back to homepage"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    Copyright (c) 2018 <a href="/" title="back to homepage"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
   <!-- End footer -->
  
   
   <!-- Beginning scripts -->
+  <script type="application/javascript" charset="utf-8" src="/js/restaurantreview.js"></script> 
   <script type="application/javascript" charset="utf-8" src="/js/idb.js"></script> 
   <script type="application/javascript" charset="utf-8" src="/js/db.js"></script> 
   <!-- Database helpers -->
