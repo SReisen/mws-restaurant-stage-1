@@ -297,7 +297,9 @@ updateReviewList = (reviews) => {
     return;
   }
   reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+    //ul.appendChild(createReviewHTML(review));
+    // sort reviews from newest to oldest
+    ul.insertBefore(createReviewHTML(review), ul.childNodes[0]);
   });
   container.appendChild(ul);
 }

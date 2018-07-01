@@ -454,11 +454,21 @@ width: 100%;
 #ratingPoints label, #ratingPoints input{
 display: inline;
 }
-#ratingPoints {
-/*margin-top:20px;*/
+#userRating textarea {
+margin-left: 20px;
+width: calc(100% - 40px);
+min-height: 100px;
 }
+/*#ratingPoints {
+margin-top:20px;
+}*/
 fieldset div{
   display: inline;
+}
+#formName input{
+border-bottom: 1px solid #444;
+border-top: none;
+border-right: none;
 }
 .modal-content {
   background-color: #fefefe;
@@ -487,7 +497,7 @@ fieldset div{
 
 #ratingPoints div {
   margin: 10px 0;
-  padding-left: 10px;
+  padding: 0 calc((100% - 250px)/10);
     /*display: block;
     width: 100%;*/
     float: left;
@@ -496,6 +506,7 @@ fieldset div{
   text-align: center;
   padding: 5px 10px;
  }
+
 
 input[type="radio"] {
     /* hide the inputs */
