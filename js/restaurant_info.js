@@ -31,6 +31,8 @@ openForm = () => {
 
 closeForm = () => {
   document.getElementById('reviewModal').style.display = 'none'; 
+  // move reviewModal out of the review list because an update of the reviewlist would delete the element
+  document.getElementById('footer').appendChild(document.getElementById('reviewModal'));
   resetForm();
 }
 
@@ -41,22 +43,31 @@ resetForm = () => {
 processForm = () => {
   // read form data
   let fname = document.getElementById("formName").value;
-  let frate;
-  if (document.getElementById('radioButton1').checked) frate = 1;
-  else if (document.getElementById('radioButton2').checked) frate = 2;
-  else if (document.getElementById('radioButton3').checked) frate = 3;
-  else if (document.getElementById('radioButton4').checked) frate = 4;
-  else if (document.getElementById('radioButton5').checked) frate = 5;
-  let ftext = document.getElementById("comments").value;
-  //Build JSON body
-  let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + '"' + fname +'"' + ', "rating": ' + frate + ', "comments": ' + '"' + ftext +'"' + '}';
-  closeForm();
-  if (condition  == 'online') {
-    sendReview(formJSON);}
+  if (fname == ''){
+    //message
+    // set fokus to name
+    document.getElementById('formName').style.color = red;
+    document.getElementById('formName').focus;
+  }
   else {
-    // add review to Reviewlist
-    document.getElementById('reviews-list').appendChild(createReviewHTML(JSON.parse(formJSON)));
-    addOfflineReview(formJSON);
+    let frate;
+    if (document.getElementById('radioButton1').checked) frate = 1;
+    else if (document.getElementById('radioButton2').checked) frate = 2;
+    else if (document.getElementById('radioButton3').checked) frate = 3;
+    else if (document.getElementById('radioButton4').checked) frate = 4;
+    else if (document.getElementById('radioButton5').checked) frate = 5;
+    let ftext = document.getElementById("comments").value;
+
+  //Build JSON body
+    let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + '"' + fname +'"' + ', "rating": ' + frate + ', "comments": ' + '"' + ftext +'"' + '}';
+    closeForm();
+    if (condition  == 'online') {
+      sendReview(formJSON);}
+    else {
+      // add review to Reviewlist
+      document.getElementById('reviews-list').appendChild(createReviewHTML(JSON.parse(formJSON)));
+      addOfflineReview(formJSON);
+    } 
   }
 }
 
@@ -334,6 +345,7 @@ createReviewHTML = (review) => {
 
 createReviewFormHTML = () =>{
   const modal = document.getElementById('reviewModal');
+  console.log('modal: ' + modal);
   modal.style.display = 'block';
   const ul = document.getElementById('reviews-list');
   ul.insertBefore(modal, ul.childNodes[0]);
