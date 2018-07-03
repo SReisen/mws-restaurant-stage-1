@@ -27,8 +27,8 @@ class DBHelper {
         let restaurants = restaurantJSON;
         fillDB(restaurants);
         // Add reviews??? or in fill DB
-        //callback(null,restaurants);
-        fillRestaurantsHTML(restaurants);
+        callback(null,restaurants);
+        //fillRestaurantsHTML(restaurants);
       })
     .catch(function(e) {   //if there is a problem with the network....
         console.log('Sorry, we have no data... code:  ' + e);

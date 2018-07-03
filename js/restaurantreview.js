@@ -1,4 +1,5 @@
 let condition;
+var formerJSON;
 /** 
  * The following function was written by david walsh and found on https://davidwalsh.name/lazyload-image-fade
  * */

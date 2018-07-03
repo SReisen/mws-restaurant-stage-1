@@ -100,6 +100,7 @@ updateRestaurants = () => {
     if (error) { // Got an error!
       console.log(error);
     } else {
+      //console.log('update restaurants call resetRestaurant then fillrestauranthtml')
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
     }
@@ -111,6 +112,7 @@ updateRestaurants = () => {
  */
 resetRestaurants = (restaurants) => {
   // Remove all restaurants
+  console.log('reset called......');
   self.restaurants = [];
   const ul = document.getElementById('restaurants-list');
   ul.innerHTML = '';
@@ -125,7 +127,9 @@ resetRestaurants = (restaurants) => {
  * Create all restaurants HTML and add them to the webpage.
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
-  const ul = document.getElementById('restaurants-list');
+  let ul = document.getElementById('restaurants-list');
+  //clear befor add
+  //ul.innerHTML = '';
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });

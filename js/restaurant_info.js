@@ -9,6 +9,7 @@ let container;
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
+  console.log('init map called.....');
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
     } 
@@ -180,6 +181,7 @@ fetchReview = (id) =>{
  * Get current restaurant from page URL.
  */
 fetchRestaurantFromURL = (callback) => {
+  console.log('fetch restaurantfrom url called...');
   if (self.restaurant) { // restaurant already fetched!
     callback(null, self.restaurant)
     return;
@@ -207,6 +209,7 @@ fetchRestaurantFromURL = (callback) => {
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
+  console.log('fillRestaurantHTML called...');
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
