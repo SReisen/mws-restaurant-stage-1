@@ -27,7 +27,7 @@ class DBHelper {
         let restaurants = restaurantJSON;
         fillDB(restaurants);
         // Add reviews??? or in fill DB
-        callback(null,restaurants);
+        //callback(null,restaurants);
         //fillRestaurantsHTML(restaurants);
       })
     .catch(function(e) {   //if there is a problem with the network....
@@ -155,6 +155,7 @@ class DBHelper {
    * Fetch all cuisines with proper error handling.
    */
   static fetchCuisines(callback) {
+    console.log('DBHelper fetch cusines called....');
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
