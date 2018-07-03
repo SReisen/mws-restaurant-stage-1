@@ -8,7 +8,6 @@ var markers = [];
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  console.log('DOMContentLoaded ausgeführt...');
   fetchNeighborhoods();
   fetchCuisines();
 });
@@ -44,9 +43,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
  * Fetch all cuisines and set their HTML.
  */
 fetchCuisines = () => {
-  console.log('fetch cusines called...');
   DBHelper.fetchCuisines((error, cuisines) => {
-    console.log('cousines: ' + cuisines);
     if (error) { // Got an error!
       console.error(error);
     } else {
@@ -103,7 +100,6 @@ updateRestaurants = () => {
     if (error) { // Got an error!
       console.log(error);
     } else {
-      //console.log('update restaurants call resetRestaurant then fillrestauranthtml')
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
     }
@@ -115,7 +111,6 @@ updateRestaurants = () => {
  */
 resetRestaurants = (restaurants) => {
   // Remove all restaurants
-  console.log('reset called......');
   self.restaurants = [];
   const ul = document.getElementById('restaurants-list');
   ul.innerHTML = '';
