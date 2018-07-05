@@ -10,7 +10,6 @@ body {
   position: relative; }
 
 ul, li {
-  font-family: 'Athiti', Arial, Helvetica, sans-serif;
   font-size: 1rem;
   color: #333; }
 
@@ -42,7 +41,6 @@ a img {
   border: none 0px #fff; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Athiti', Arial, Helvetica, sans-serif;
   margin: 0 0 20px; }
 
 #header h1{
@@ -76,16 +74,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   margin-bottom: 50px;
   
 }
-#footer {
-  background-color: #252831;
-  color: #aaa;
-  font-size: 8pt;
-  letter-spacing: 1px;
-  height: 28px;
-  text-align: center;
-  text-transform: uppercase;
-  width: 100%;
-  padding: 20px 0 5px 0; }
+
 
 /* ====================== Navigation ====================== */
 nav {
@@ -162,7 +151,6 @@ nav h1 a {
 .filter-options select {
   background-color: #f3f3f3;
   border: 1px solid #fff;
-  font-family: 'Athiti', Arial,sans-serif;
   font-size: 11pt;
   height: 35px;
   letter-spacing: 0;
@@ -187,7 +175,6 @@ nav h1 a {
   background-color: #fff;
   border: 2px solid #ccc;
   border-radius: 5px;
-  font-family: 'Athiti', Arial,sans-serif;
   padding: 5px;
   text-align: left;
   display: grid;
@@ -210,7 +197,6 @@ nav h1 a {
   grid-column-start: 1;
   grid-column-end: 3;
   color: #252831;
-  font-family: 'Athiti', Arial,sans-serif;
   font-size: 1.5rem;
   font-weight: 200;
   letter-spacing: 0;
@@ -309,7 +295,6 @@ nav h1 a {
 
 #restaurant-name {
   color: #252831;
-  font-family: 'Athiti', Arial,sans-serif;
   font-size: 1.5em;
   font-weight: 200;
   letter-spacing: 0;
@@ -416,13 +401,6 @@ nav h1 a {
   background-color: rgba(255,255,255); /* Black w/ opacity */
   border: solid 2px #000;
   border-radius: 5px;
-/* This parts are not usefull without modals
-transform: translate(-50%, -50%);
-position: absolute; 
-  left: 50%;
-  top: 50%;
-  max-width: 400px;
-width: 100%;  */
 }
 #rating div{
 margin-left: 20px;

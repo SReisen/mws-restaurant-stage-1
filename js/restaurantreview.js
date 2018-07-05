@@ -1,8 +1,9 @@
 let condition;
-var formerJSON;
+var newFavoritSelection;// will set to true
 /** 
  * The following function was written by david walsh and found on https://davidwalsh.name/lazyload-image-fade
  * */
+/*
 window.addEventListener('load', function() {
   [].forEach.call(document.querySelectorAll('img[data-src]'), function(img) {
     img.setAttribute('src', img.getAttribute('data-src'));
@@ -10,8 +11,17 @@ window.addEventListener('load', function() {
       img.removeAttribute('data-src');
     };
   })
-});
+});*/
 
+lazyLoad = () => {
+  console.log('lazyload called ');
+  [].forEach.call(document.querySelectorAll('img[data-src]'), function(img) {
+    img.setAttribute('src', img.getAttribute('data-src'));
+    img.onload = function() {
+      img.removeAttribute('data-src');
+    };
+  })
+}
 /**
 * Add eventlistener to check online status. Snippet from https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/Online_and_offline_events
 **/
@@ -29,6 +39,7 @@ window.addEventListener('load', function() {
 
     window.addEventListener('online',  updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
+    lazyLoad();
 });
 
 /**

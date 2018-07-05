@@ -8,7 +8,7 @@ if (!window.indexedDB) {
   }
 
 // open Database and upgrade if nessessarry
-var dbPromise = idb.open('RestaurantDB', 2, function(upgradeDb){
+var dbPromise = idb.open('RestaurantDB', 3, function(upgradeDb){
     if (!upgradeDb.objectStoreNames.contains('restaurantStore')) {
         var store = upgradeDb.createObjectStore('restaurantStore', {keyPath: 'id'});
     }
@@ -19,10 +19,15 @@ var dbPromise = idb.open('RestaurantDB', 2, function(upgradeDb){
         revStore.createIndex('restIndex', 'restaurant_id', {unique: false});
     }
 
-    // this store contain all reviews that got an error while sending
+    // this store contain all reviews that got an error while sending and will be stored until network connection is reinstalled
     // the store uses a autoincriment index because the "final" review id will be assigned by the api-server
     if (!upgradeDb.objectStoreNames.contains('offlineReviewStore')) {
         var revStore = upgradeDb.createObjectStore('offlineReviewStore', {autoIncrement: true});
+    }
+
+    // this store contains program parameter and is now used to send favorite restaurant updates to the mainpage
+    if (!upgradeDb.objectStoreNames.contains('parameterStore')) {
+        var revStore = upgradeDb.createObjectStore('parameterStore', {keyPath: 'nr'});
     }
 })
 

@@ -17,20 +17,33 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
+    let lastDBFetchResult;
     // first read data from DB
     readDB().then(function(rdata){
-      callback(null, rdata);
-      })
-    fetch(DBHelper.DATABASE_URL)
-      .then(response => response.json())
-      .then (restaurantJSON =>{
-        let restaurants = restaurantJSON;
-        fillDB(restaurants);
-      })
+
+      if (rdata != ''){ 
+        lastDBFetchResult = rdata;
+        callback(null, rdata);
+      }
+      fetch(DBHelper.DATABASE_URL)
+        .then(response => response.json())
+        .then (restaurantJSON =>{
+          let restaurants = restaurantJSON;
+          //If actual fetch result is not equal with last fetch result => update DB 
+            if (JSON.stringify(lastDBFetchResult) != JSON.stringify(restaurants)){
+            //console.log('Daten sind nicht identisch!!!');
+            fillDB(restaurants);
+            callback(null,restaurants);
+            }
+            else console.log('Daten sind identisch! Kein Update notwendig');
+        }).catch(function(error){
+          console.log('fetch error in fetchRestaurants: ' + error);
+        })
+    
+    })
     .catch(function(e) {   //if there is a problem with the network....
         console.log('Sorry, we have no data... code:  ' + e);
-        })
-
+    })
   }
   
   static fetchReviewById(id){
@@ -74,8 +87,24 @@ class DBHelper {
       .then(restaurantJSON =>{
         let restaurantData = restaurantJSON;
         callback(null, restaurantData);
+      }).catch(function(err){
+        console.log('Error: ' + err);
+        
       })
-   }
+    // fetch all restaurants with proper error handling.
+   /* DBHelper.fetchRestaurants((error, restaurants) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        const restaurant = restaurants.find(r => r.id == id);
+        if (restaurant) { // Got the restaurant
+          callback(null, restaurant);
+        } else { // Restaurant does not exist in the database
+          callback('Restaurant does not exist', null);
+        }
+      }
+    });*/
+  }
 
   /**
    * Fetch restaurants by a cuisine type with proper error handling.

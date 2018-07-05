@@ -6,7 +6,6 @@ let siteCacheUrls = [
     'restaurant.html',
     'dist/css/styles.css',
     'manifest.json',
-    'favicon.ico',
     'js/dbhelper.js',
     'js/main.js',
     'js/idb.js',
@@ -18,6 +17,7 @@ let siteCacheUrls = [
     'icon/heart.svg',
     'icon/icons-192.png',
     'icon/icons-512.png',
+    'icon/favicon.ico',
     'js/restaurant_info.js'
     ];
 

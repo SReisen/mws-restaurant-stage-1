@@ -10,6 +10,8 @@ var markers = [];
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  updateRestaurants();
+  console.log('Restaurant updated: ');
 });
 
 /**
@@ -102,6 +104,8 @@ updateRestaurants = () => {
     } else {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
+      console.log('Update restaurants call ll..');
+      lazyLoad();
     }
   })
 }
@@ -125,9 +129,7 @@ resetRestaurants = (restaurants) => {
  * Create all restaurants HTML and add them to the webpage.
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
-  let ul = document.getElementById('restaurants-list');
-  //clear befor add
-  //ul.innerHTML = '';
+  const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
@@ -149,16 +151,20 @@ createRestaurantHTML = (restaurant) => {
   imgUrl = DBHelper.imageUrlForRestaurant(restaurant);
   // if image not found use no-pic.svg
   if (imgUrl == '/images/undefined.jpg'){
-    image.src = '/icon/no-pic.svg';  
+    image.setAttribute('data-src', '/icon/no-pic.svg');
+   // image.src = '/icon/no-pic.svg';  
     image.alt = "Sorry, there is no image for " + restaurant.name;
   }
-  else image.src = imgUrl.replace('.jpg', '-300px.jpg');
+  else {
+    //image.src = imgUrl.replace('.jpg', '-300px.jpg');
+    image.setAttribute('data-src', imgUrl.replace('.jpg', '-300px.jpg'));
+    }
   li.append(image); 
 
   // Add heart image if favorite
   const favImg = document.createElement('img'); 
   favImg.className = 'fav-img'; 
-  if (restaurant.is_favorite){
+  if (restaurant.is_favorite == 'true'){
     favImg.alt = restaurant.name + " is a favorite";
     favImg.src = '/icon/heart.svg'; 
     li.append(favImg);    

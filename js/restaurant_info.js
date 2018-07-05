@@ -11,6 +11,7 @@ let container;
 window.initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
+      console.log('Wow an error....');
     } 
     else {
       self.map = new google.maps.Map(document.getElementById('map'), {
@@ -65,7 +66,7 @@ processForm = () => {
       sendReview(formJSON);}
     else {
       // add review to Reviewlist
-      document.getElementById('reviews-list').appendChild(createReviewHTML(JSON.parse(formJSON)));
+      document.getElementById('reviews-list').insertBefore(createReviewHTML(JSON.parse(formJSON)), document.getElementById('reviews-list').childNodes[0]);
       addOfflineReview(formJSON);
     } 
   }
@@ -127,7 +128,7 @@ sendReview = (JSONBody) =>{
 
 //Toggle mark favorite button
 updateFavButton = () =>{
-  if (self.restaurant.is_favorite){
+  if (self.restaurant.is_favorite == "true"){
     markFav.innerHTML = 'unmark Favorit'; 
   }
   else {
@@ -139,8 +140,11 @@ setFavorit = (rid) =>{
   let restObject;
   let favData;
   // if value is not set by API set to false
-  if (self.restaurant.is_favorite == 'undefined') self.restaurant.is_favorite = false;
-  let val = !self.restaurant.is_favorite;   
+  if ((self.restaurant.is_favorite == 'undefined') || (self.restaurant.is_favorite == false)) self.restaurant.is_favorite = "false";
+
+  let val;
+   if (self.restaurant.is_favorite == "true") val = "false" ;
+   else val = "true";   
   // Read and change DB entries
   dbPromise.then(db => {
       let store = db.transaction('restaurantStore', 'readwrite').objectStore('restaurantStore');  
@@ -149,7 +153,7 @@ setFavorit = (rid) =>{
         favData.is_favorite = val;
         writeDBItem(favData);
       })
-      self.restaurant.is_favorite = val;     
+      self.restaurant.is_favorite = val;   
       updateFavButton();  
   }).then(function(){
       //Change value via API
@@ -211,7 +215,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   name.innerHTML = restaurant.name;
 
   // Show red hart if favorite. 
-  const favImg = document.createElement('img');
+  /*const favImg = document.createElement('img');
   favImg.className = 'fav-img';
     if (restaurant.is_favorite == true){
       favImg.alt = restaurant.name + " is a favorite";
@@ -221,7 +225,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
       favImg.alt = restaurant.name + " is not marked as a favorite";
       favImg.src = '/icon/heart-grey.svg';  
     } 
-  document.getElementById('restaurant-address').append(favImg);
+  document.getElementById('restaurant-address').append(favImg);*/
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
