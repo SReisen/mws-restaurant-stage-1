@@ -241,6 +241,10 @@ nav h1 a {
     padding: 0 0 0 10px;
     margin-top: 0;
   }
+  #favCheckBoxLabel {
+    margin-left: 20px;
+    font-weight: bold;
+  }
 
 
 /* ====================== Restaurant Details ====================== */

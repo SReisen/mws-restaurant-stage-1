@@ -131,14 +131,18 @@ sendReview = (JSONBody) =>{
 }
 
 /**
- * Toggle mark favorite button
+ * Toggle mark favorite checkbox
  */
-updateFavButton = () =>{
+updateFavCheckbox = () =>{
   if (self.restaurant.is_favorite == "true"){
-    markFav.innerHTML = 'unmark Favorit'; 
+    markFav.checked = true;
+    markFav.setAttribute("aria-checked", "true");
+    //markFav.innerHTML = 'unmark Favorit'; 
   }
   else {
-    markFav.innerHTML = 'mark Favorit';
+    markFav.checked = false;
+    markFav.setAttribute("aria-checked", "false");
+    //markFav.innerHTML = 'mark Favorit';
   }
 }
 
@@ -163,7 +167,7 @@ setFavorit = (rid) =>{
         writeDBItem(favData);
       })
       self.restaurant.is_favorite = val;   
-      updateFavButton();  
+      updateFavCheckbox();  
   }).then(function(){
       //Change value via API
       favUrl = 'http://localhost:1337/restaurants/' + rid +'/?is_favorite=' + val;
@@ -258,25 +262,13 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
-  // Show red hart if favorite. 
-  /*const favImg = document.createElement('img');
-  favImg.className = 'fav-img';
-    if (restaurant.is_favorite == true){
-      favImg.alt = restaurant.name + " is a favorite";
-      favImg.src = '/icon/heart.svg';  
-      } 
-    else{
-      favImg.alt = restaurant.name + " is not marked as a favorite";
-      favImg.src = '/icon/heart-grey.svg';  
-    } 
-  document.getElementById('restaurant-address').append(favImg);*/
-
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
     
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img';
   image.alt = 'restaurant ' + restaurant.name;
+
   // choose image resolution depending on window with
   const winWith = window.innerWidth;
   if (DBHelper.imageUrlForRestaurant(restaurant) == '/icon/undefined.jpg'){
@@ -302,7 +294,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
-  //hours.tabIndex = 0;
+
   for (let key in operatingHours) {
     const row = document.createElement('tr');
     row.tabIndex = 0;
@@ -333,9 +325,18 @@ fillReviewsHTML = (reviews = revTrans) => {
   writeRev.setAttribute("onclick","createReviewFormHTML()"); 
   container.appendChild(writeRev);
 
-  // Add button to mark the restaurant a favorite
-  markFav = document.createElement('BUTTON');
-  updateFavButton();
+  // Add checkbox to mark the restaurant a favorite
+  favLabel = document.createElement('LABEL');
+  favLabel.setAttribute("id", "favCheckBoxLabel");
+  favLabel.innerHTML = 'Mark this restaurant as a favorite here: ';
+  favLabel.setAttribute( "for", "favoritCheckbox");
+  container.appendChild(favLabel);
+  markFav = document.createElement('INPUT');
+  markFav.setAttribute("type", "checkbox");
+  markFav.setAttribute("id", "favoritCheckbox");
+  markFav.setAttribute("aria-checked", "true")
+
+  updateFavCheckbox();
   markFav.setAttribute("onclick","setFavorit(" + self.restaurant.id + ")"); 
 
   container.appendChild(markFav);
