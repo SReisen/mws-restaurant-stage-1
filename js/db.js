@@ -2,7 +2,9 @@
  * The code in this file based on Jake Archibalds work. Especially on the idb library and wittr project
  */
 
-// check for IndexedDB support
+/*
+* check for IndexedDB support
+*/
 if (!window.indexedDB) {
     window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
   }
@@ -24,14 +26,11 @@ var dbPromise = idb.open('RestaurantDB', 3, function(upgradeDb){
     if (!upgradeDb.objectStoreNames.contains('offlineReviewStore')) {
         var revStore = upgradeDb.createObjectStore('offlineReviewStore', {autoIncrement: true});
     }
-
-    // this store contains program parameter and is now used to send favorite restaurant updates to the mainpage
-    if (!upgradeDb.objectStoreNames.contains('parameterStore')) {
-        var revStore = upgradeDb.createObjectStore('parameterStore', {keyPath: 'nr'});
-    }
 })
 
-// Fill and Update DB
+/**
+ * Fill and Update DB
+ */
 fillDB = (restaurants) => {
     dbPromise.then(function(db){
         var tx = db.transaction('restaurantStore', 'readwrite');
@@ -42,7 +41,9 @@ fillDB = (restaurants) => {
     })
 }
 
-// read database for mainpage
+/**
+ * Read database for mainpage
+ */
 readDB = () =>{
     return dbPromise.then(function(db){
         var tx = db.transaction('restaurantStore');
@@ -51,7 +52,9 @@ readDB = () =>{
     })
 }
 
-// Read restaurant info from DB
+/**
+ * Read restaurant info from DB
+ */ 
 readDBRestaurantById = (id) => {
     return dbPromise.then(function(db){
         var tx = db.transaction('restaurantStore');
@@ -61,6 +64,9 @@ readDBRestaurantById = (id) => {
     })
 }
 
+/**
+ * Add item to DB
+ */
 writeDBItem = (data) =>{
     dbPromise.then(db => {
         return db.transaction('restaurantStore', 'readwrite')
@@ -68,7 +74,9 @@ writeDBItem = (data) =>{
       }).then(obj => console.log(obj));
 }
 
-// Fill review store
+/**
+ * Fill review store
+ */
 fillReviewDB = (reviews) =>{
     dbPromise.then(function(db){
         var tx = db.transaction('reviewStore', 'readwrite');
@@ -79,7 +87,9 @@ fillReviewDB = (reviews) =>{
     })
 }
 
-// Use the objectstore index to return reviews for selected restaurant
+/**
+ * Read all reviews by restaurant ID .
+ */
 readReviewsByID = (restID) => {
     return dbPromise.then(function(db){
         var tx = db.transaction('reviewStore', 'readonly');
@@ -89,8 +99,9 @@ readReviewsByID = (restID) => {
     })
 }
 
-// add a review to offlineReview store after send failure
-// add offlineId to JSON  
+/**
+ * add a review to offlineReview store after send failure
+ */
 addOfflineReview = (JSONdata) =>{
     dbPromise.then(function(db){
         var tx = db.transaction('offlineReviewStore', 'readwrite');
@@ -99,6 +110,9 @@ addOfflineReview = (JSONdata) =>{
     }) 
 }
 
+/**
+ * Clear offline reviewstore after sending all messages
+ */
 clearOfflineReview = () =>{
     dbPromise.then(function(db){
         var tx = db.transaction('offlineReviewStore', 'readwrite');

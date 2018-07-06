@@ -25,11 +25,16 @@ window.initMap = () => {
   });
 }
 
-// functions to handle review form
+/**
+ * Make form visible
+ */
 openForm = () => {
   document.getElementById('reviewModal').style.display = 'block';
 }
 
+/**
+ * hide and move element
+ */
 closeForm = () => {
   document.getElementById('reviewModal').style.display = 'none'; 
   // move reviewModal out of the review list because an update of the reviewlist would delete the element
@@ -37,27 +42,27 @@ closeForm = () => {
   resetForm();
 }
 
+/**
+ * Clear form
+ */
 resetForm = () => {
   document.getElementById("userRating").reset();
 }
 
+/**
+ * Read formdata and create review
+ */
 processForm = () => {
   // read form data
   let fname = document.getElementById("formName").value;
-  if (fname == ''){
-    //message
-    // set fokus to name
-    document.getElementById('formName').style.color = red;
-    document.getElementById('formName').focus;
-  }
-  else {
-    let frate;
-    if (document.getElementById('radioButton1').checked) frate = 1;
-    else if (document.getElementById('radioButton2').checked) frate = 2;
-    else if (document.getElementById('radioButton3').checked) frate = 3;
-    else if (document.getElementById('radioButton4').checked) frate = 4;
-    else if (document.getElementById('radioButton5').checked) frate = 5;
-    let ftext = document.getElementById("comments").value;
+  let frate;
+
+  if (document.getElementById('radioButton1').checked) frate = 1;
+  else if (document.getElementById('radioButton2').checked) frate = 2;
+  else if (document.getElementById('radioButton3').checked) frate = 3;
+  else if (document.getElementById('radioButton4').checked) frate = 4;
+  else if (document.getElementById('radioButton5').checked) frate = 5;
+  let ftext = document.getElementById("comments").value;
 
   //Build JSON body
     let formJSON = '{ ' + '"restaurant_id" : ' + self.restaurant.id + ', "name": ' + '"' + fname +'"' + ', "rating": ' + frate + ', "comments": ' + '"' + ftext +'"' + '}';
@@ -69,9 +74,7 @@ processForm = () => {
       document.getElementById('reviews-list').insertBefore(createReviewHTML(JSON.parse(formJSON)), document.getElementById('reviews-list').childNodes[0]);
       addOfflineReview(formJSON);
     } 
-  }
 }
-
 
 /**
  * Send all offline written reviews and update review list
@@ -88,15 +91,16 @@ sendAllOfflineReviews = () =>{
       sendReview(offlineReview).then(function(){
         clearOfflineReview(offlineReview);              
       })
-      })
-      DBHelper.fetchReviewById(oldReviewId).then(function(reviews){
+    })
+
+    DBHelper.fetchReviewById(oldReviewId).then(function(reviews){
       updateReviewList(reviews); //update reviews list
-      });
+    });
   })
   // delete offlineReviews
-      }).then (function(){
-          console.log('sendAllOffline...done..');
-      })
+  }).then (function(){
+    console.log('sendAllOffline...done..');
+  })
 } 
 
 /**
@@ -114,8 +118,8 @@ sendReview = (JSONBody) =>{
     console.log('POST successfull');
   })
   .catch(error => {
-    console.log('Arg, a network Error:', error);
-    // if review comes from form the write it to offlineReview store.
+    console.log('Network Error:', error);
+    // if review comes from form => write it to offlineReview store.
     addOfflineReview(JSONBody);
     })
   .then(res => {
@@ -126,7 +130,9 @@ sendReview = (JSONBody) =>{
   });
 }
 
-//Toggle mark favorite button
+/**
+ * Toggle mark favorite button
+ */
 updateFavButton = () =>{
   if (self.restaurant.is_favorite == "true"){
     markFav.innerHTML = 'unmark Favorit'; 
@@ -136,6 +142,9 @@ updateFavButton = () =>{
   }
 }
 
+/**
+ * Set favorit status in DB and API
+ */
 setFavorit = (rid) =>{ 
   let restObject;
   let favData;
@@ -143,8 +152,8 @@ setFavorit = (rid) =>{
   if ((self.restaurant.is_favorite == 'undefined') || (self.restaurant.is_favorite == false)) self.restaurant.is_favorite = "false";
 
   let val;
-   if (self.restaurant.is_favorite == "true") val = "false" ;
-   else val = "true";   
+  if (self.restaurant.is_favorite == "true") val = "false" ;
+  else val = "true";   
   // Read and change DB entries
   dbPromise.then(db => {
       let store = db.transaction('restaurantStore', 'readwrite').objectStore('restaurantStore');  
@@ -192,7 +201,6 @@ fetchRestaurantFromURL = (callback) => {
     callback(error, null);
   }
   readDBRestaurantById(id).then(function(restaurantFromDb){
-    console.log('restaurantfromDb: ' + restaurantFromDb);
     self.restaurant = restaurantFromDb;
 
     fetchReview(self.restaurant.id).then(function(rev){
@@ -229,40 +237,9 @@ fetchRestaurantFromURL = (callback) => {
       revTrans = '';
       fillRestaurantHTML();
       callback(null, restaurantFromDb);
-    })
-
-
-
-  
-    
-    //prevent a callback in the case that no data has changed
-    
+    })   
   }) 
 }
-/* obsolete function
-  fetchRestaurantFromURL = (callback) => {
-  if (self.restaurant) { // restaurant already fetched!
-    callback(null, self.restaurant)
-    return;
-  }
-  const id = getParameterByName('id');
-  if (!id) { // no id found in URL
-    error = 'No restaurant id in URL'
-    callback(error, null);
-  } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
-      self.restaurant = restaurant;
-      if (!restaurant) {
-        console.error(error);
-        return;
-      }
-      fetchReview(self.restaurant.id).then(function(rev){
-        revTrans = rev;
-      fillRestaurantHTML();
-      callback(null, restaurant);})
-    });
-  }
-}*/
 
 /**
  *  Update Restaurant.html if fetch differs from DB entries
@@ -380,14 +357,10 @@ updateReviewList = (reviews) => {
     return;
   }
   reviews.forEach(review => {
-    //ul.appendChild(createReviewHTML(review));
-    // sort reviews from newest to oldest
     ul.insertBefore(createReviewHTML(review), ul.childNodes[0]);
   });
   container.appendChild(ul);
 }
-
-
 
 /**
  * Create review HTML and add it to the webpage.
@@ -415,12 +388,16 @@ createReviewHTML = (review) => {
   return li;
 }
 
+/**
+ *  Create form for review
+ */
 createReviewFormHTML = () =>{
   const modal = document.getElementById('reviewModal');
   modal.style.display = 'block';
   const ul = document.getElementById('reviews-list');
   ul.insertBefore(modal, ul.childNodes[0]);
 }
+
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */

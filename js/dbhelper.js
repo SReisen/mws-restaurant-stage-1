@@ -14,40 +14,39 @@ class DBHelper {
   }
 
   /**
-   * Fetch all restaurants.
+   * Fetch all restaurants. 
    */
   static fetchRestaurants(callback) {
-    console.log('fetch restaurants called...');
     // first read data from DB
     readDB().then(function(rdata){
 
       if (rdata != ''){ 
         lastDBFetchResult = rdata;
-        //console.log('fetch result: ' + lastDBFetchResult);
         callback(null, rdata);
       }
-      //callback(null,restaurants); 
+ 
       fetch(DBHelper.DATABASE_URL)
         .then(response => response.json())
         .then (restaurantJSON =>{
           let restaurants = restaurantJSON;
           //If actual fetch result is not equal with last fetch result => update DB 
             if (JSON.stringify(lastDBFetchResult) != JSON.stringify(restaurants)){
-            //console.log('Daten sind nicht identisch!!!');
             fillDB(restaurants);
             callback(null,restaurants);
             }
-            else console.log('Daten sind identisch! Kein Update notwendig');
+            else console.log('No update needed');
         }).catch(function(error){
-          console.log('fetch error in fetchRestaurants: ' + error);
-        })
-    
+          console.log('Error in fetchRestaurants: ' + error);
+        })   
     })
     .catch(function(e) {   //if there is a problem with the network....
         console.log('Sorry, we have no data... code:  ' + e);
     })
   }
   
+  /**
+   * Fetch reviews and update DB
+   */
   static fetchReviewById(id){
     var fetUrl = 'http://localhost:1337/reviews/?restaurant_id=' + id;
     return fetch(fetUrl)
@@ -58,30 +57,11 @@ class DBHelper {
         fillReviewDB(reviews);
         return reviews;
       })
-}
-// spilt in 2 parts fetch all and by id!!!!
- // fetch all reviews
- /* static fetchReviews(id){
-    return fetch('http://localhost:1337/reviews/')
-      .then(response => response.json())
-      .then(reviewJSON =>{
-        let reviews = reviewJSON;
-        fillReviewDB(reviews);
-        //callback(readReviewsByID(id));// produziert Fehler
-        return readReviewsByID(id).then(function(reData){
-          //return JSON.stringify(reData);
-          return(null, reData);
-        })
-      })
-    .catch(function(e) {   
-          console.log(e);
-          //callback(null, e);
-          })    
-  }*/
+  }
 
   /**
-   * Fetch a restaurant by its ID.
-   */
+  * Fetch a restaurant by its ID.
+  */
   static fetchRestaurantById(id, callback) {
     // new function
     fetch(`http://localhost:1337/restaurants/${id}`)
@@ -93,19 +73,6 @@ class DBHelper {
         console.log('Error: ' + err);
         
       })
-    // fetch all restaurants with proper error handling.
-   /* DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
-        } else { // Restaurant does not exist in the database
-          callback('Restaurant does not exist', null);
-        }
-      }
-    });*/
   }
 
   /**
@@ -113,9 +80,7 @@ class DBHelper {
    */
   static fetchRestaurantByCuisine(cuisine, callback) {
     // Fetch all restaurants  with proper error handling
-    console.log('fetch restaurants by cusine called');
-    // get results from last fetch
-    
+  
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
@@ -147,7 +112,6 @@ class DBHelper {
    * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
    */
   static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) { 
-    console.log('fetch restaurants by cusine and neighborhood called');
     // Fetch all restaurants
     
     DBHelper.fetchRestaurants((error, restaurants) => {
@@ -170,9 +134,7 @@ class DBHelper {
    * Fetch all neighborhoods with proper error handling.
    */
   static fetchNeighborhoods(callback) {
-    // Fetch all restaurants
-    console.log('fetch neighborhoods  called');
-    
+    // Fetch all restaurants    
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
@@ -191,7 +153,6 @@ class DBHelper {
    */
   static fetchCuisines(callback) {
     // Fetch all restaurants
-    console.log('fetch cusines called');
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
