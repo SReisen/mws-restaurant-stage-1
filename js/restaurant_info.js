@@ -214,7 +214,6 @@ fetchRestaurantFromURL = (callback) => {
       if (condition == 'online'){
         DBHelper.fetchRestaurantById(id, (error, restaurant) => {
           update = "true"; 
-          console.log('restaurant: ' + restaurant);
           if ((!restaurant) || (restaurant == 'undefined')) {
             console.error(error);
             return;

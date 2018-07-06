@@ -10,7 +10,7 @@
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Main CSS file -->
   <!-- <link rel="stylesheet" href="css/styles.css" type="text/css">-->
-  <link rel="stylesheet" href="dist/css/styles.css">
+  <link rel="stylesheet" href="dist/css/styles-min.css">
   <link href="https://fonts.googleapis.com/css?family=Athiti" rel="stylesheet">
   <link rel="manifest" href="/manifest.json">
   <title>Restaurant Info</title>
@@ -48,7 +48,7 @@
       <h2 id="modalHead">Please use this form to review the restaurant</h2>
         <form id="userRating" role="form"> 
           <div id="fieldName">
-             <label for="name">Name:</label>
+             <label for="formName">Name:</label>
             <input type="text" placeholder="Please enter your name here.." id="formName" />
           </div>
           <div>
@@ -106,13 +106,16 @@
  
   
   <!-- Beginning scripts -->
+  <script type="application/javascript" charset="utf-8" src="/js/idb.js"></script> 
+   <script type="application/javascript" charset="utf-8" src="/js/restaurant-js-con.js"></script> 
+  <!--
   <script type="application/javascript" charset="utf-8" src="/js/restaurantreview.js"></script> 
   <script type="application/javascript" charset="utf-8" src="/js/idb.js"></script> 
-  <script type="application/javascript" charset="utf-8" src="/js/db.js"></script> 
-  <!-- Database helpers -->
-   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-  <!-- Main javascript file -->
-  <script type="application/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
+  <script type="application/javascript" charset="utf-8" src="/js/db.js"></script> -->
+  <!-- Database helpers 
+   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>-->
+  <!-- Main javascript file
+  <script type="application/javascript" charset="utf-8" src="js/restaurant_info.js"></script> -->
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9YztfBeOOlt11Zbubd7Slpq0IUVjwYS8&libraries=places&callback=initMap"></script>
 

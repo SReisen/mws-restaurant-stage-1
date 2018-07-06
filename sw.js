@@ -4,21 +4,17 @@ let siteCacheUrls = [
     'index.html',
     'sw.js',
     'restaurant.html',
-    'dist/css/styles.css',
+    'dist/css/styles-min.css',
     'manifest.json',
-    'js/dbhelper.js',
-    'js/main.js',
     'js/idb.js',
-    'js/db.js',
-    'js/restaurantreview.js',
+    'js/restaurant-js-con.js',
     'icon/map-show.svg',
     'icon/map-hide.svg',
     'icon/no-pic.svg',
     'icon/heart.svg',
     'icon/icons-192.png',
     'icon/icons-512.png',
-    'icon/favicon.ico',
-    'js/restaurant_info.js'
+    'icon/favicon.ico'
     ];
 
 self.addEventListener('install', function(e) {
