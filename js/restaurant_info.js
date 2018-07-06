@@ -184,6 +184,63 @@ fetchReview = (id) =>{
  * Get current restaurant from page URL.
  */
 fetchRestaurantFromURL = (callback) => {
+  let update = "true";
+  const id = getParameterByName('id');
+
+  if (!id) { // no id found in URL
+    error = 'No restaurant id in URL'
+    callback(error, null);
+  }
+  readDBRestaurantById(id).then(function(restaurantFromDb){
+    console.log('restaurantfromDb: ' + restaurantFromDb);
+    self.restaurant = restaurantFromDb;
+
+    fetchReview(self.restaurant.id).then(function(rev){
+      revTrans = rev;
+      fillRestaurantHTML(); 
+
+if (condition == 'online'){
+      DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+        console.log('restaurant: ' + restaurant);
+        if ((!restaurant) || (restaurant == 'undefined')) {
+          console.error(error);
+          return;
+        }
+        if(JSON.stringify(self.restaurant) == JSON.stringify(restaurant)){
+          update = false;
+          console.log('Restaurant data has not changed!');
+          return
+        }
+        else {
+          self.restaurant = restaurant;
+        }   
+      }) 
+    } 
+
+
+if (update == "true") {
+      fillRestaurantHTML();
+      callback(null, restaurantFromDb);
+    }
+
+
+    }).catch(function(e){
+      console.log(e);
+      revTrans = '';
+      fillRestaurantHTML();
+      callback(null, restaurantFromDb);
+    })
+
+
+
+    // check for updates if online
+    
+    //prevent a callback in the case that no data has changed
+    
+  }) 
+}
+/* obsolete function
+  fetchRestaurantFromURL = (callback) => {
   if (self.restaurant) { // restaurant already fetched!
     callback(null, self.restaurant)
     return;
@@ -205,7 +262,7 @@ fetchRestaurantFromURL = (callback) => {
       callback(null, restaurant);})
     });
   }
-}
+}*/
 
 /**
  * Create restaurant HTML and add it to the webpage

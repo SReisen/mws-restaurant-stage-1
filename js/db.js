@@ -51,6 +51,16 @@ readDB = () =>{
     })
 }
 
+// Read restaurant info from DB
+readDBRestaurantById = (id) => {
+    return dbPromise.then(function(db){
+        var tx = db.transaction('restaurantStore');
+        var store = tx.objectStore('restaurantStore', 'readwrite');       
+        let retdata = store.get(parseInt(id));
+        return retdata;
+    })
+}
+
 writeDBItem = (data) =>{
     dbPromise.then(db => {
         return db.transaction('restaurantStore', 'readwrite')

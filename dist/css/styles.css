@@ -72,9 +72,14 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #review{
   border: solid 1px #252831;
   margin-bottom: 50px;
-  
-}
+}  
 
+footer{
+  background-color: #252831;
+  text-align: center;
+  color: #ccc;
+  width:100%;
+}
 
 /* ====================== Navigation ====================== */
 nav {
