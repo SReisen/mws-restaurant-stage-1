@@ -3,6 +3,7 @@ let restaurants,
   cuisines;
 var map;
 var markers = [];
+let lastDBFetchResult;
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -86,6 +87,30 @@ window.initMap = () => {
 }
 
 /**
+ * update restaurants and lazyload images
+ */
+updateRestaurantsAndFavorites = () =>{
+  const cSelect = document.getElementById('cuisines-select');
+  const nSelect = document.getElementById('neighborhoods-select');
+
+  const cIndex = cSelect.selectedIndex;
+  const nIndex = nSelect.selectedIndex;
+
+  const cuisine = cSelect[cIndex].value;
+  const neighborhood = nSelect[nIndex].value;
+
+  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
+    if (error) { // Got an error!
+      console.log(error);
+    } else {
+      resetRestaurants(restaurants);
+      fillRestaurantsHTML();
+      lazyLoad();
+    }
+  })
+}
+
+/**
  * Update page and map for current restaurants.
  */
 updateRestaurants = () => {
@@ -104,8 +129,6 @@ updateRestaurants = () => {
     } else {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
-      console.log('Update restaurants call ll..');
-      lazyLoad();
     }
   })
 }

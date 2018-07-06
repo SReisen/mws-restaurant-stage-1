@@ -17,12 +17,13 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let lastDBFetchResult;
+    console.log('fetch restaurants called...');
     // first read data from DB
     readDB().then(function(rdata){
 
       if (rdata != ''){ 
         lastDBFetchResult = rdata;
+        //console.log('fetch result: ' + lastDBFetchResult);
         callback(null, rdata);
       }
       //callback(null,restaurants); 
@@ -112,6 +113,9 @@ class DBHelper {
    */
   static fetchRestaurantByCuisine(cuisine, callback) {
     // Fetch all restaurants  with proper error handling
+    console.log('fetch restaurants by cusine called');
+    // get results from last fetch
+    
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
@@ -142,8 +146,10 @@ class DBHelper {
   /**
    * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
    */
-  static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
+  static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) { 
+    console.log('fetch restaurants by cusine and neighborhood called');
     // Fetch all restaurants
+    
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
@@ -165,6 +171,8 @@ class DBHelper {
    */
   static fetchNeighborhoods(callback) {
     // Fetch all restaurants
+    console.log('fetch neighborhoods  called');
+    
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
@@ -183,6 +191,7 @@ class DBHelper {
    */
   static fetchCuisines(callback) {
     // Fetch all restaurants
+    console.log('fetch cusines called');
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
