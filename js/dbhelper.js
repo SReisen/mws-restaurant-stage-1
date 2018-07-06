@@ -25,6 +25,7 @@ class DBHelper {
         lastDBFetchResult = rdata;
         callback(null, rdata);
       }
+      //callback(null,restaurants); 
       fetch(DBHelper.DATABASE_URL)
         .then(response => response.json())
         .then (restaurantJSON =>{
@@ -59,7 +60,7 @@ class DBHelper {
 }
 // spilt in 2 parts fetch all and by id!!!!
  // fetch all reviews
-  static fetchReviews(id){
+ /* static fetchReviews(id){
     return fetch('http://localhost:1337/reviews/')
       .then(response => response.json())
       .then(reviewJSON =>{
@@ -75,7 +76,7 @@ class DBHelper {
           console.log(e);
           //callback(null, e);
           })    
-  }
+  }*/
 
   /**
    * Fetch a restaurant by its ID.

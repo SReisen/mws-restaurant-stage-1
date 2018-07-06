@@ -10,7 +10,7 @@ var markers = [];
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
-  updateRestaurants();
+  //updateRestaurants();
   console.log('Restaurant updated: ');
 });
 
@@ -166,7 +166,8 @@ createRestaurantHTML = (restaurant) => {
   favImg.className = 'fav-img'; 
   if (restaurant.is_favorite == 'true'){
     favImg.alt = restaurant.name + " is a favorite";
-    favImg.src = '/icon/heart.svg'; 
+    favImg.setAttribute('data-src', '/icon/heart.svg');
+    //favImg.src = '/icon/heart.svg'; 
     li.append(favImg);    
   }
  

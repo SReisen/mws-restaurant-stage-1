@@ -184,7 +184,7 @@ fetchReview = (id) =>{
  * Get current restaurant from page URL.
  */
 fetchRestaurantFromURL = (callback) => {
-  let update = "true";
+  let update = "false";
   const id = getParameterByName('id');
 
   if (!id) { // no id found in URL
@@ -197,32 +197,32 @@ fetchRestaurantFromURL = (callback) => {
 
     fetchReview(self.restaurant.id).then(function(rev){
       revTrans = rev;
-      fillRestaurantHTML(); 
 
-if (condition == 'online'){
-      DBHelper.fetchRestaurantById(id, (error, restaurant) => {
-        console.log('restaurant: ' + restaurant);
-        if ((!restaurant) || (restaurant == 'undefined')) {
-          console.error(error);
-          return;
-        }
-        if(JSON.stringify(self.restaurant) == JSON.stringify(restaurant)){
-          update = false;
-          console.log('Restaurant data has not changed!');
-          return
-        }
-        else {
-          self.restaurant = restaurant;
-        }   
-      }) 
-    } 
-
-
-if (update == "true") {
+      // check for updates if online
+      if (condition == 'online'){
+        DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+          update = "true"; 
+          console.log('restaurant: ' + restaurant);
+          if ((!restaurant) || (restaurant == 'undefined')) {
+            console.error(error);
+            return;
+          }
+          if(JSON.stringify(self.restaurant) == JSON.stringify(restaurant)){
+            update = false;
+            console.log('Restaurant data has not changed!');
+            return
+          }
+          else {
+            self.restaurant = restaurant;
+            updateRestaurantHTML();
+          }   
+        }) 
+      } 
+    
+    if (update == "false") {
       fillRestaurantHTML();
       callback(null, restaurantFromDb);
     }
-
 
     }).catch(function(e){
       console.log(e);
@@ -233,7 +233,7 @@ if (update == "true") {
 
 
 
-    // check for updates if online
+  
     
     //prevent a callback in the case that no data has changed
     
@@ -264,6 +264,16 @@ if (update == "true") {
   }
 }*/
 
+/**
+ *  Update Restaurant.html if fetch differs from DB entries
+ */
+updateRestaurantHTML = (restaurant) => {
+  // delete values that will append by fillRestaurantHoursHTML and fillReviewsHTML then call fillRestaurantHTML, 
+  document.getElementById('restaurant-hours').innerHTML = '';
+  document.getElementById('reviews-container').innerHTML = '';
+  fillRestaurantHTML();
+
+}
 /**
  * Create restaurant HTML and add it to the webpage
  */
@@ -364,7 +374,8 @@ updateReviewList = (reviews) => {
 
   if (!reviews) {
     const noReviews = document.createElement('p');
-    noReviews.innerHTML = 'No reviews yet!';
+    if (condition == 'online') noReviews.innerHTML = 'No reviews yet!';
+    else noReviews.innerHTML = 'Reviews can not be loaded because network connection is offline!';
     container.appendChild(noReviews);
     return;
   }
