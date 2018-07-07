@@ -44,35 +44,35 @@
     <!-- end restaurant -->
 
     <!-- Beginning Form-->
-    <div id="reviewModal" class="modalBox">
-      <h2>Please use this form to review the restaurant</h2>
-        <form id="userRating" > 
+    <div id="reviewModal" class="modalBox" role="dialog" aria-modal="true" aria-labelby="modalHead">
+      <h2 id="modalHead">Please use this form to review the restaurant</h2>
+        <form id="userRating" role="form"> 
           <div id="fieldName">
-             <label for="name">Name:</label>
-            <input type="text" placeholder="Please enter your name here.." id="formName" aria-required="true"/>
+             <label for="formName">Name:</label>
+            <input type="text" placeholder="Please enter your name here.." id="formName" />
           </div>
           <div>
               <fieldset id="ratingPoints">
-               <legend>How many points...  </legend>
+               <legend>How do you rate this restaurant?  </legend>
                  <div>
                   <input type="radio" id="radioButton1" name="rating" value="1"/>
-                  <label for="1">1</label>
+                  <label for="radioButton1">1</label>
                 </div>
                 <div>
                   <input type="radio" id="radioButton2" name="rating" value="2"/>
-                  <label for="2">2</label>
+                  <label for="radioButton2">2</label>
                 </div>
                 <div>
                   <input type="radio" id="radioButton3" name="rating" value="3" checked />
-                  <label for="3">3</label>
+                  <label for="radioButton3">3</label>
                 </div>
                 <div>
                   <input type="radio" id="radioButton4" name="rating" value="4" />
-                  <label for="4">4</label>
+                  <label for="radioButton4">4</label>
                 </div>
                 <div>
                   <input type="radio" id="radioButton5" name="rating" value="5"/>
-                  <label for="5">5</label>
+                  <label for="radioButton5">5</label>
                 </div>
               </fieldset>
             </div>
@@ -106,13 +106,16 @@
  
   
   <!-- Beginning scripts -->
+  <script type="application/javascript" charset="utf-8" src="/js/idb.js"></script> 
+   <script type="application/javascript" charset="utf-8" src="/js/restaurant-review.js"></script> 
+  <!--
   <script type="application/javascript" charset="utf-8" src="/js/restaurantreview.js"></script> 
   <script type="application/javascript" charset="utf-8" src="/js/idb.js"></script> 
-  <script type="application/javascript" charset="utf-8" src="/js/db.js"></script> 
-  <!-- Database helpers -->
-   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-  <!-- Main javascript file -->
-  <script type="application/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
+  <script type="application/javascript" charset="utf-8" src="/js/db.js"></script> -->
+  <!-- Database helpers 
+   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>-->
+  <!-- Main javascript file-->
+  <script type="application/javascript" charset="utf-8" src="js/restaurant_info.js"></script> 
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9YztfBeOOlt11Zbubd7Slpq0IUVjwYS8&libraries=places&callback=initMap"></script>
 
