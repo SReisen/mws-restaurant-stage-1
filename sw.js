@@ -7,7 +7,7 @@ let siteCacheUrls = [
     'dist/css/styles-min.css',
     'manifest.json',
     'js/idb.js',
-    'js/restaurant-review-min.js',
+    'js/restaurant-review.js',
     'js/main.js',
     'js/restaurant_info.js',
     'icon/map-show.svg',
